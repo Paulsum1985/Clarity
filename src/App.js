@@ -5,8 +5,6 @@ import { getFirestore, doc, setDoc, getDoc, addDoc, collection, onSnapshot, quer
 import { ArrowLeft, Plus, Trash2, Share2, Check, Users, Star, Frown, Award, X, Zap, Crown, LogOut, User, ChevronDown, ArrowRight } from 'lucide-react';
 
 // --- Firebase Configuration ---
-// This setup now works both locally and in Canvas.
-// When running locally, it uses your hardcoded config.
 const localFirebaseConfig = {
   apiKey: "AIzaSyDZZPUyhR551iIZZhtVaBjVOoijWqb6F_4",
   authDomain: "clarity-polls.firebaseapp.com",
@@ -158,9 +156,6 @@ const UserMenu = ({ user, auth, navigate, userStatus, onSignIn }) => {
         </div>
     )
 };
-
-
-// --- PAGE COMPONENTS ---
 
 const HomePage = ({ navigate, user, auth, userStatus }) => {
     const [showLoginModal, setShowLoginModal] = useState(false);
