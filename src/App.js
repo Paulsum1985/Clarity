@@ -19,7 +19,7 @@ const firebaseConfig = typeof window.__firebase_config !== 'undefined' ? JSON.pa
 const appId = typeof window.__app_id !== 'undefined' ? window.__app_id : 'clarity-app-local';
 
 
-// --- UTILITY & HELPER COMPONENTS (Defined First) ---
+// --- 1. UTILITY & HELPER COMPONENTS (Defined First) ---
 
 const LoadingScreen = ({ message }) => (
     <div className="flex flex-col items-center justify-center min-h-screen text-slate-300">
@@ -372,3 +372,4 @@ export default function App() {
         </div>
     );
 }
+
