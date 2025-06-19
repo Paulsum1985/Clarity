@@ -5,18 +5,22 @@ import { getFirestore, doc, setDoc, getDoc, addDoc, collection, onSnapshot, quer
 import { ArrowLeft, Plus, Trash2, Share2, Check, Users, Star, Frown, Award, X, Zap, Crown, LogOut, User, ChevronDown, ArrowRight } from 'lucide-react';
 
 // --- Firebase Configuration ---
-// PASTE YOUR FIREBASE CONFIG OBJECT HERE
-const firebaseConfig = {
+// This setup now works both locally and in Canvas.
+// When running locally, it uses your hardcoded config.
+// When in Canvas, it uses the special __firebase_config variable.
+const localFirebaseConfig = {
+  // PASTE YOUR FIREBASE CONFIG OBJECT HERE (the one from Part 1, Step 2)
   apiKey: "YOUR_API_KEY",
   authDomain: "YOUR_AUTH_DOMAIN",
   projectId: "YOUR_PROJECT_ID",
   storageBucket: "YOUR_STORAGE_BUCKET",
   messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID",
-  measurementId: "YOUR_MEASUREMENT_ID" // This one is optional
+  appId: "YOUR_APP_ID"
 };
 
-const appId = typeof __app_id !== 'undefined' ? __app_id : 'clarity-app-default';
+const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : localFirebaseConfig;
+const appId = typeof __app_id !== 'undefined' ? __app_id : 'clarity-app-local';
+
 
 // --- UTILITY & HELPER COMPONENTS (Defined First) ---
 
@@ -156,9 +160,6 @@ const UserMenu = ({ user, auth, navigate, userStatus, onSignIn }) => {
     )
 };
 
-
-// --- PAGE COMPONENTS ---
-
 const HomePage = ({ navigate, user, auth, userStatus }) => {
     const [showLoginModal, setShowLoginModal] = useState(false);
     const handleMakeDecisionClick = () => { user ? navigate('create') : setShowLoginModal(true); };
@@ -203,31 +204,31 @@ const HomePage = ({ navigate, user, auth, userStatus }) => {
 };
 
 const CreateDecisionPage = ({ db, user, userStatus, setUserStatus, navigate }) => {
-    // ... Full implementation
+    // ...
 };
 
 const PricingPage = ({ db, user, navigate, setUserStatus, userStatus }) => {
-    //... Full implementation
+    //...
 };
 
 
 const DecisionPage = ({ db, user, decisionId, navigate }) => {
-    // ... Full implementation
+    // ...
 };
 
 const MyDecisionsPage = ({ db, user, navigate }) => {
-    // ... Full implementation
+    // ...
 };
 
 const UpgradeModal = ({ onClose, navigate }) => ( <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"> <GlassCard className="w-full max-w-md text-center"> <button onClick={onClose} className="absolute top-4 right-4 text-slate-400 hover:text-white"><X size={24}/></button> <div className="text-yellow-400 mb-4"><Zap size={48} className="mx-auto"/></div> <h2 className="text-2xl font-bold text-white mb-2 font-brand">Daily Limit Reached</h2> <p className="text-slate-300 mb-6">You've used your free decision for today. Upgrade to Clarity Pro for unlimited decisions and more.</p> <button onClick={() => navigate('pricing')} className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 rounded-lg text-lg">Upgrade to Pro</button> </GlassCard> </div> );
 
 const ResultsPanel = ({ decision }) => {
-    // ... Full implementation
+    // ...
 };
 
 
 const VotingInterface = ({ decision, db, userId }) => {
-    // ... Full implementation
+    // ...
 };
 
 const StarRating = ({ rating, onRating }) => ( <div className="flex justify-center items-center gap-1">{[1, 2, 3, 4, 5].map((star) => ( <Star key={star} onClick={() => onRating(star)} className={`cursor-pointer transition-all duration-150 ${rating >= star ? 'text-yellow-400 fill-current' : 'text-slate-600'} hover:text-yellow-300 hover:scale-125`} style={{ filter: rating >= star ? 'drop-shadow(0 0 5px #facc15)' : 'none' }} size={24} /> ))}</div> );
@@ -250,6 +251,7 @@ const ConfettiExplosion = ({ count = 100 }) => {
         </div>
     );
 };
+
 
 // --- Main App Component ---
 export default function App() {
@@ -362,4 +364,3 @@ export default function App() {
         </div>
     );
 }
-
