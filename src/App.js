@@ -5,22 +5,17 @@ import { getFirestore, doc, setDoc, getDoc, addDoc, collection, onSnapshot, quer
 import { ArrowLeft, Plus, Trash2, Share2, Check, Users, Star, Frown, Award, X, Zap, Crown, LogOut, User, ChevronDown, ArrowRight } from 'lucide-react';
 
 // --- Firebase Configuration ---
-const localFirebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyDZZPUyhR551iIZZhtVaBjVOoijWqb6F_4",
   authDomain: "clarity-polls.firebaseapp.com",
   projectId: "clarity-polls",
-  storageBucket: "clarity-polls.appspot.com",
+  storageBucket: "clarity-polls.firebasestorage.app",
   messagingSenderId: "403675966419",
   appId: "1:403675966419:web:a39f0245cef94cb34b5d26",
   measurementId: "G-NYY535SSGM"
 };
 
-const firebaseConfig = typeof window.__firebase_config !== 'undefined' ? JSON.parse(window.__firebase_config) : localFirebaseConfig;
-const appId = typeof window.__app_id !== 'undefined' ? window.__app_id : 'clarity-app-local';
-
-
-
-
+const appId = 'clarity-app-local';
 
 // --- 1. UTILITY & HELPER COMPONENTS (Defined First) ---
 
@@ -346,7 +341,7 @@ const HomePage = ({ navigate, user, auth, userStatus }) => {
 
                 <div className="mt-10 animate-fade-in delay-2">
 
-                    <button onClick={handleMakeDecisionClick} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-3 px-10 rounded-full text-lg shadow-[0_5px_15px_rgba(236,72,153,0.4),_inset_0_-2px_5px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_20px_rgba(236,72,153,0.5),_inset_0_-2px_5px_rgba(0,0,0,0.3)] active:shadow-[0_2px_5px_rgba(236,72,153,0.3),_inset_0_-1px_3px_rgba(0,0,0,0.4)] transition-all duration-150 transform hover:-translate-y-1 active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-pink-400 focus:ring-opacity-50">
+                    <button onClick={handleMakeDecisionClick} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-3 px-10 rounded-full text-lg shadow-[0_5px_15px_rgba(236,72,153,0.4),_inset_0_-2px_5px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_20px_rgba(236,72,153,0.5),_inset_0_-2px_5px_rgba(0,0,0,0.4)] active:shadow-[0_2px_5px_rgba(236,72,153,0.3),_inset_0_-1px_3px_rgba(0,0,0,0.4)] transition-all duration-150 transform hover:-translate-y-1 active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-pink-400 focus:ring-opacity-50">
 
                         Make a Decision
 
@@ -404,39 +399,29 @@ const HomePage = ({ navigate, user, auth, userStatus }) => {
 
 };
 
-
-
-const CreateDecisionPage = ({ db, user, userStatus, setUserStatus, navigate }) => {
-
-    // ...
-
-};
+const CreateDecisionPage = ({ db, user, userStatus, setUserStatus, navigate }) => (
+    <div className="p-4 text-white">Create Decision Page (Not Implemented)</div>
+);
 
 
 
-const PricingPage = ({ db, user, navigate, setUserStatus, userStatus }) => {
-
-    //...
-
-};
+const PricingPage = ({ db, user, navigate, setUserStatus, userStatus }) => (
+    <div className="p-4 text-white">Pricing Page (Not Implemented)</div>
+);
 
 
 
 
 
-const DecisionPage = ({ db, user, decisionId, navigate }) => {
-
-    // ...
-
-};
+const DecisionPage = ({ db, user, decisionId, navigate }) => (
+    <div className="p-4 text-white">Decision Page for ID: {decisionId} (Not Implemented)</div>
+);
 
 
 
-const MyDecisionsPage = ({ db, user, navigate }) => {
-
-    // ...
-
-};
+const MyDecisionsPage = ({ db, user, navigate }) => (
+     <div className="p-4 text-white">My Decisions Page (Not Implemented)</div>
+);
 
 
 
@@ -444,21 +429,17 @@ const UpgradeModal = ({ onClose, navigate }) => ( <div className="fixed inset-0 
 
 
 
-const ResultsPanel = ({ decision }) => {
-
-    // ...
-
-};
+const ResultsPanel = ({ decision }) => (
+    <div className="p-4 text-white">Results Panel (Not Implemented)</div>
+);
 
 
 
 
 
-const VotingInterface = ({ decision, db, userId }) => {
-
-    // ...
-
-};
+const VotingInterface = ({ decision, db, userId }) => (
+    <div className="p-4 text-white">Voting Interface (Not Implemented)</div>
+);
 
 
 
@@ -568,7 +549,9 @@ export default function App() {
 
                         }
 
-                    });
+                    }, (error) => {
+                       console.error("Error in onSnapshot:", error);
+                   });
 
                      return () => userStatusUnsubscribe();
 
@@ -580,7 +563,10 @@ export default function App() {
 
                 setIsAuthReady(true);
 
-            });
+            }, (error) => {
+               console.error("Error in onAuthStateChanged:", error);
+               setIsAuthReady(true);
+           });
 
             return () => unsubscribe();
 
