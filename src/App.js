@@ -148,9 +148,9 @@ const UserMenu = ({ user, auth, navigate, userStatus, onSignIn }) => {
             {isOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-slate-800 rounded-lg shadow-lg py-1">
                      {userStatus && <div className="px-4 py-2 text-xs text-purple-400 uppercase font-bold">{userStatus.tier} Plan</div>}
-                     <a onClick={() => {navigate('my-decisions'); setIsOpen(false);}} className="block px-4 py-2 text-slate-300 hover:bg-slate-700 cursor-pointer">My Decisions</a>
-                    {userStatus && userStatus.tier === 'free' && <a onClick={() => {navigate('pricing'); setIsOpen(false);}} className="block px-4 py-2 text-purple-400 hover:bg-slate-700 cursor-pointer">Upgrade</a>}
-                    <a onClick={handleSignOut} className="block px-4 py-2 text-slate-300 hover:bg-slate-700 cursor-pointer">Sign Out</a>
+                     <button onClick={() => {navigate('my-decisions'); setIsOpen(false);}} className="block w-full text-left px-4 py-2 text-slate-300 hover:bg-slate-700">My Decisions</button>
+                    {userStatus && userStatus.tier === 'free' && <button onClick={() => {navigate('pricing'); setIsOpen(false);}} className="block w-full text-left px-4 py-2 text-purple-400 hover:bg-slate-700">Upgrade</button>}
+                    <button onClick={handleSignOut} className="block w-full text-left px-4 py-2 text-slate-300 hover:bg-slate-700">Sign Out</button>
                 </div>
             )}
         </div>
