@@ -7,19 +7,18 @@ import { ArrowLeft, Plus, Trash2, Share2, Check, Users, Star, Frown, Award, X, Z
 // --- Firebase Configuration ---
 // This setup now works both locally and in Canvas.
 // When running locally, it uses your hardcoded config.
-// When in Canvas, it uses the special __firebase_config variable.
 const localFirebaseConfig = {
-  // PASTE YOUR FIREBASE CONFIG OBJECT HERE (the one from Part 1, Step 2)
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyDZZPUyhR551iIZZhtVaBjVOoijWqb6F_4",
+  authDomain: "clarity-polls.firebaseapp.com",
+  projectId: "clarity-polls",
+  storageBucket: "clarity-polls.appspot.com",
+  messagingSenderId: "403675966419",
+  appId: "1:403675966419:web:a39f0245cef94cb34b5d26",
+  measurementId: "G-NYY535SSGM"
 };
 
-const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : localFirebaseConfig;
-const appId = typeof __app_id !== 'undefined' ? __app_id : 'clarity-app-local';
+const firebaseConfig = typeof window.__firebase_config !== 'undefined' ? JSON.parse(window.__firebase_config) : localFirebaseConfig;
+const appId = typeof window.__app_id !== 'undefined' ? window.__app_id : 'clarity-app-local';
 
 
 // --- UTILITY & HELPER COMPONENTS (Defined First) ---
@@ -159,6 +158,9 @@ const UserMenu = ({ user, auth, navigate, userStatus, onSignIn }) => {
         </div>
     )
 };
+
+
+// --- PAGE COMPONENTS ---
 
 const HomePage = ({ navigate, user, auth, userStatus }) => {
     const [showLoginModal, setShowLoginModal] = useState(false);
