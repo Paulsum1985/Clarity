@@ -109,6 +109,16 @@ const AnimatedResultsDemo = () => {
         { id: 'opt_3', name: 'Vegan Burger Joint', score: 18 },
     ], []);
     const maxScore = scores[0].score;
+    const barGradients = [
+        'from-green-400 to-cyan-400',
+        'from-blue-400 to-purple-500',
+        'from-purple-500 to-pink-500'
+    ];
+    const glowEffects = [
+        '0 0 10px #2dd4bf',
+        '0 0 10px #a78bfa',
+        '0 0 10px #f472b6'
+    ];
     return (
         <GlassCard>
             <div className="flex justify-between items-center mb-6"><h2 className="text-xl font-bold text-white font-brand">Results</h2><div className="flex items-center gap-2 text-slate-400 bg-white/10 px-3 py-1 rounded-full"><Users size={16} /><span className="font-semibold">8</span></div></div>
@@ -123,7 +133,7 @@ const AnimatedResultsDemo = () => {
                             <p className="font-bold text-white text-lg">{option.score}</p>
                         </div>
                         <div className="w-full bg-white/10 rounded-full h-4">
-                            <div className={`rounded-full h-4 transition-all duration-500 ease-out bg-gradient-to-r ${index === 0 ? 'from-green-400 to-cyan-400' : 'from-purple-500 to-pink-500'}`} style={{ width: `${(option.score / maxScore) * 100}%`, animation: `bar-animate 1s ${0.5 + index * 0.2}s ease-out forwards`, transform: 'scaleX(0)', transformOrigin: 'left', boxShadow: index === 0 ? '0 0 10px #2dd4bf' : 'none' }}></div>
+                            <div className={`rounded-full h-4 transition-all duration-500 ease-out bg-gradient-to-r ${barGradients[index]}`} style={{ width: `${(option.score / maxScore) * 100}%`, animation: `bar-animate 1s ${0.5 + index * 0.2}s ease-out forwards`, transform: 'scaleX(0)', transformOrigin: 'left', boxShadow: glowEffects[index] }}></div>
                         </div>
                     </div>
                 ))}
@@ -156,6 +166,7 @@ const UserMenu = ({ user, auth, navigate, userStatus, onSignIn }) => {
         </div>
     )
 };
+
 
 const HomePage = ({ navigate, user, auth, userStatus }) => {
     const [showLoginModal, setShowLoginModal] = useState(false);
