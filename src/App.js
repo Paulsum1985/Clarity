@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged, signInWithPopup, signInAnonymously, GoogleAuthProvider, OAuthProvider, signOut } from 'firebase/auth';
-import { getFirestore, doc, setDoc, getDoc, addDoc, collection, onSnapshot, query, where, getDocs, runTransaction } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, getDoc, addDoc, collection, onSnapshot, query, where, getDocs, runTransaction, updateDoc } from 'firebase/firestore';
 import { ArrowLeft, Plus, Trash2, Share2, Check, Users, Star, Frown, Award, X, Zap, Crown, LogOut, User, ChevronDown, ArrowRight } from 'lucide-react';
 
 // --- Firebase Configuration ---
@@ -177,7 +177,7 @@ const HomePage = ({ navigate, user, auth, userStatus }) => {
                     <p className="mt-3 text-lg md:text-xl text-slate-200 max-w-xl animate-fade-in delay-1" style={{ textShadow: '0 0 8px rgba(0, 0, 0, 0.7)' }}>Make better decisions, together. Turn confusing choices into clear, objective results.</p>
                 </div>
                 <div className="mt-10 animate-fade-in delay-2">
-                    <button onClick={handleMakeDecisionClick} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-3 px-10 rounded-full text-lg shadow-[0_5px_15px_rgba(236,72,153,0.4),_inset_0_-2px_5px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_20px_rgba(236,72,153,0.5),_inset_0_-2px_5px_rgba(0,0,0,0.4)] active:shadow-[0_2px_5px_rgba(236,72,153,0.3),_inset_0_-1px_3px_rgba(0,0,0,0.4)] transition-all duration-150 transform hover:-translate-y-1 active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-pink-400 focus:ring-opacity-50">
+                    <button onClick={handleMakeDecisionClick} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-3 px-10 rounded-full text-lg shadow-[0_5px_15px_rgba(236,72,153,0.4),_inset_0_-2px_5px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_20px_rgba(236,72,153,0.5)] transition-all duration-150 transform hover:-translate-y-1 active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-pink-400 focus:ring-opacity-50">
                         Make a Decision
                     </button>
                 </div>
@@ -253,7 +253,7 @@ const CreateDecisionPage = ({ db, user, userStatus, setUserStatus, navigate }) =
             setUserStatus(newStatus);
             
             // Create decision
-            const decisionData = { question: question.trim(), options: finalOptions, criteria: finalCriteria, creatorId: user.uid, createdAt: new Date().toISOString(), votes: [] };
+            const decisionData = { question: question.trim(), options: finalOptions, criteria: finalCriteria, creatorId: user.uid, createdAt: new Date().toISOString(), votes: [], deleted: false };
             const docRef = await addDoc(collection(db, `artifacts/${appId}/public/data/decisions`), decisionData);
             navigate('decision', docRef.id);
         } catch (error) {
@@ -386,8 +386,14 @@ const DecisionPage = ({ db, user, auth, decisionId, navigate }) => {
         const docPath = `artifacts/${appId}/public/data/decisions/${decisionId}`;
         const unsubscribe = onSnapshot(doc(db, docPath), (docSnap) => {
             if (docSnap.exists()) {
-                setDecision({ id: docSnap.id, ...docSnap.data() });
-                setError(null);
+                const data = docSnap.data();
+                if (data.deleted) {
+                    setError("The creator of this poll has deleted it.");
+                    setDecision(null);
+                } else {
+                    setDecision({ id: docSnap.id, ...data });
+                    setError(null);
+                }
             } else { setError("Decision not found."); setDecision(null); }
             setLoading(false);
         }, (err) => {
@@ -450,7 +456,6 @@ const MyDecisionsPage = ({ db, user, navigate }) => {
 
     useEffect(() => {
         if (!db || !user) return;
-        // Do not fetch decisions for anonymous users
         if (user.isAnonymous) {
             setDecisions([]);
             setLoading(false);
@@ -458,7 +463,7 @@ const MyDecisionsPage = ({ db, user, navigate }) => {
         }
 
         const decisionsRef = collection(db, `artifacts/${appId}/public/data/decisions`);
-        const q = query(decisionsRef, where("creatorId", "==", user.uid));
+        const q = query(decisionsRef, where("creatorId", "==", user.uid), where("deleted", "==", false));
 
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             const userDecisions = [];
@@ -475,6 +480,17 @@ const MyDecisionsPage = ({ db, user, navigate }) => {
         return () => unsubscribe();
     }, [db, user]);
 
+    const handleDelete = async (decisionId) => {
+        if (window.confirm("Are you sure you want to delete this decision? This action cannot be undone.")) {
+            const decisionRef = doc(db, `artifacts/${appId}/public/data/decisions`, decisionId);
+            try {
+                await updateDoc(decisionRef, { deleted: true });
+            } catch (error) {
+                console.error("Error deleting decision:", error);
+            }
+        }
+    };
+    
     if (loading) {
         return <LoadingScreen message="Fetching your decisions..." />;
     }
@@ -482,10 +498,12 @@ const MyDecisionsPage = ({ db, user, navigate }) => {
     return (
         <div className="min-h-screen p-4 sm:p-6 md:p-8 animate-fade-in">
             <div className="max-w-4xl mx-auto">
-                <button onClick={() => navigate('home')} className="flex items-center gap-2 text-slate-300 hover:text-white mb-6 transition-colors"><ArrowLeft size={18} /> Back to Home</button>
                 <div className="flex justify-between items-center mb-6">
-                    <h1 className="text-4xl font-bold text-white font-brand">My Decisions</h1>
-                     <button onClick={() => navigate('create')} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-2 px-6 rounded-full text-lg shadow-[0_5px_15px_rgba(236,72,153,0.4)] hover:shadow-[0_8px_20px_rgba(236,72,153,0.5)] transition-all duration-150 transform hover:-translate-y-1">
+                    <div>
+                        <button onClick={() => navigate('home')} className="flex items-center gap-2 text-slate-300 hover:text-white mb-2 transition-colors"><ArrowLeft size={18} /> Back to Home</button>
+                        <h1 className="text-4xl font-bold text-white font-brand">My Decisions</h1>
+                    </div>
+                    <button onClick={() => navigate('create')} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-2 px-6 rounded-full text-lg shadow-[0_5px_15px_rgba(236,72,153,0.4)] hover:shadow-[0_8px_20px_rgba(236,72,153,0.5)] transition-all duration-150 transform hover:-translate-y-1">
                         + New Decision
                     </button>
                 </div>
@@ -509,19 +527,21 @@ const MyDecisionsPage = ({ db, user, navigate }) => {
                 ) : (
                     <div className="space-y-4">
                         {decisions.map(decision => (
-                             <GlassCard key={decision.id} className="!p-0 overflow-hidden hover:border-cyan-400/50 transition-colors duration-300 group">
-                                <button onClick={() => navigate('decision', decision.id)} className="w-full text-left p-6 flex items-center justify-between">
-                                    <div>
-                                        <h2 className="text-xl font-semibold text-white truncate group-hover:text-cyan-300 transition-colors">{decision.question}</h2>
-                                        <div className="flex items-center text-sm text-slate-400 mt-2 gap-4">
-                                            <span>{decision.options.length} options</span>
-                                            <span>&bull;</span>
-                                            <span>{decision.criteria.length} criteria</span>
-                                            <span>&bull;</span>
-                                            <span>{decision.votes.length} votes</span>
-                                        </div>
+                             <GlassCard key={decision.id} className="!p-0 overflow-hidden hover:border-cyan-400/50 transition-colors duration-300 group flex items-center">
+                                <button onClick={() => navigate('decision', decision.id)} className="w-full text-left p-6 flex-grow">
+                                    <h2 className="text-xl font-semibold text-white truncate group-hover:text-cyan-300 transition-colors">{decision.question}</h2>
+                                    <div className="flex items-center text-sm text-slate-400 mt-2 gap-4">
+                                        <span>{new Date(decision.createdAt).toLocaleDateString()}</span>
+                                        <span>&bull;</span>
+                                        <span>{decision.options.length} options</span>
+                                        <span>&bull;</span>
+                                        <span>{decision.criteria.length} criteria</span>
+                                        <span>&bull;</span>
+                                        <span>{decision.votes.length} votes</span>
                                     </div>
-                                    <ArrowRight size={20} className="text-slate-500 group-hover:text-white transition-all group-hover:translate-x-1" />
+                                </button>
+                                <button onClick={() => handleDelete(decision.id)} className="p-6 text-slate-400 hover:text-pink-500 transition-colors">
+                                    <Trash2 size={20} />
                                 </button>
                             </GlassCard>
                         ))}
