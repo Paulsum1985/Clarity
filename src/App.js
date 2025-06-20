@@ -617,22 +617,23 @@ export default function App() {
         return () => window.removeEventListener('hashchange', handleHashChange);
 
     }, [user]);
-
-
-
-    const navigate = (targetPage, id = null) => {
-
+    
+    // ------------------- NEW CODE START -------------------
+    // This hook handles the post-login redirect.
+    const navigate = useCallback((targetPage, id = null) => {
         if (targetPage === 'decision' && id) window.location.hash = `#decision/${id}`;
-
         else if (targetPage === 'create') window.location.hash = '#create';
-
         else if (targetPage === 'pricing') window.location.hash = '#pricing';
-
         else if (targetPage === 'my-decisions') window.location.hash = '#my-decisions';
-
         else window.location.hash = '#';
+    }, []);
 
-    };
+    useEffect(() => {
+        if (isAuthReady && user && page === 'home') {
+            navigate('my-decisions');
+        }
+    }, [isAuthReady, user, page, navigate]);
+    // -------------------- NEW CODE END --------------------
 
 
 
