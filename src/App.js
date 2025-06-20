@@ -2,7 +2,9 @@ import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged, signInWithPopup, signInAnonymously, GoogleAuthProvider, OAuthProvider, signOut } from 'firebase/auth';
 import { getFirestore, doc, setDoc, getDoc, addDoc, collection, onSnapshot, query, where, getDocs, runTransaction, updateDoc } from 'firebase/firestore';
-import { ArrowLeft, Plus, Trash2, Share2, Check, Users, Star, Frown, Award, X, Zap, Crown, LogOut, User, ChevronDown, ArrowRight } from 'lucide-react';
+import { loadStripe } from '@stripe/stripe-js';
+import { EmbeddedCheckoutProvider, EmbeddedCheckout } from '@stripe/react-stripe-js';
+import { ArrowLeft, Plus, Trash2, Share2, Check, Users, Star, Frown, Award, X, Zap, Crown, LogOut, User, ChevronDown, ArrowRight, Settings, ArrowUpCircle, LayoutGrid } from 'lucide-react';
 
 // --- Firebase Configuration ---
 const firebaseConfig = {
@@ -17,7 +19,11 @@ const firebaseConfig = {
 
 const appId = 'clarity-app-local';
 
-// --- 1. UTILITY & HELPER COMPONENTS (Defined First) ---
+// Initialize Stripe outside of the component render
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
+
+
+// --- 1. UTILITY & HELPER COMPONENTS ---
 
 const LoadingScreen = ({ message }) => (
     <div className="flex flex-col items-center justify-center min-h-screen text-slate-300">
@@ -144,6 +150,23 @@ const AnimatedResultsDemo = () => {
 const UserMenu = ({ user, auth, navigate, userStatus, onSignIn }) => {
     const [isOpen, setIsOpen] = useState(false);
     const handleSignOut = async () => { await signOut(auth); navigate('home'); };
+
+    const handleManageSubscription = async () => {
+        try {
+            const response = await fetch('http://localhost:4242/create-customer-portal-session', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId: user.uid }),
+            });
+
+            if (!response.ok) throw new Error('Failed to create customer portal session');
+            const { url } = await response.json();
+            window.location.href = url;
+        } catch (error) {
+            console.error('Error managing subscription:', error);
+        }
+    };
+    
     if(!user || user.isAnonymous) { return ( <div className="absolute top-6 right-6 z-30"><button onClick={onSignIn} className="bg-white/10 text-white font-semibold py-2 px-4 rounded-full hover:bg-white/20 transition-colors">Sign In</button></div> ) }
     return (
         <div className="absolute top-6 right-6 z-30">
@@ -153,11 +176,14 @@ const UserMenu = ({ user, auth, navigate, userStatus, onSignIn }) => {
                 <ChevronDown size={16} className={`transition-transform ${isOpen ? 'rotate-180' : ''}`}/>
             </button>
             {isOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-slate-800 rounded-lg shadow-lg py-1">
+                <div className="absolute right-0 mt-2 w-56 bg-slate-800 rounded-lg shadow-lg py-1">
                       {userStatus && <div className="px-4 py-2 text-xs text-purple-400 uppercase font-bold">{userStatus.tier} Plan</div>}
-                      <button onClick={() => {navigate('my-decisions'); setIsOpen(false);}} className="block w-full text-left px-4 py-2 text-slate-300 hover:bg-slate-700">My Decisions</button>
-                    {userStatus && userStatus.tier === 'free' && <button onClick={() => {navigate('pricing'); setIsOpen(false);}} className="block w-full text-left px-4 py-2 text-purple-400 hover:bg-slate-700">Upgrade</button>}
-                    <button onClick={handleSignOut} className="block w-full text-left px-4 py-2 text-slate-300 hover:bg-slate-700">Sign Out</button>
+                      <button onClick={() => {navigate('my-decisions'); setIsOpen(false);}} className="flex items-center gap-2 w-full text-left px-4 py-2 text-slate-300 hover:bg-slate-700"><LayoutGrid size={16}/>My Decisions</button>
+                    {userStatus && userStatus.tier === 'pro' && (
+                          <button onClick={handleManageSubscription} className="flex items-center gap-2 w-full text-left px-4 py-2 text-slate-300 hover:bg-slate-700"><Settings size={16} /> Manage Subscription</button>
+                      )}
+                    {userStatus && userStatus.tier === 'free' && <button onClick={() => {navigate('pricing'); setIsOpen(false);}} className="flex items-center gap-2 w-full text-left px-4 py-2 text-purple-400 hover:bg-slate-700"><ArrowUpCircle size={16}/>Upgrade</button>}
+                    <button onClick={handleSignOut} className="flex items-center gap-2 w-full text-left px-4 py-2 text-slate-300 hover:bg-slate-700"><LogOut size={16}/>Sign Out</button>
                 </div>
             )}
         </div>
@@ -173,22 +199,22 @@ const HomePage = ({ navigate, user, auth, userStatus }) => {
             <div className="flex flex-col items-center justify-center min-h-screen p-4 overflow-hidden">
                 <UserMenu user={user} auth={auth} navigate={navigate} userStatus={userStatus} onSignIn={() => setShowLoginModal(true)} />
                 <div className="text-center">
-                    <h1 className="text-6xl md:text-8xl font-bold text-white tracking-tighter font-brand animate-fade-in" style={{ textShadow: '0 0 10px rgba(255,255,255,0.2), 0 0 25px rgba(236,72,153,0.3), 0 0 40px rgba(168,85,247,0.3)' }}>Clarity</h1>
-                    <p className="mt-3 text-lg md:text-xl text-slate-200 max-w-xl animate-fade-in delay-1" style={{ textShadow: '0 0 8px rgba(0, 0, 0, 0.7)' }}>Make better decisions, together. Turn confusing choices into clear, objective results.</p>
+                    <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tighter font-brand animate-fade-in" style={{ textShadow: '0 0 10px rgba(255,255,255,0.2), 0 0 25px rgba(236,72,153,0.3), 0 0 40px rgba(168,85,247,0.3)' }}>Clarity</h1>
+                    <p className="mt-3 text-base md:text-lg text-slate-200 max-w-xl animate-fade-in delay-1" style={{ textShadow: '0 0 8px rgba(0, 0, 0, 0.7)' }}>Make better decisions, together. Turn confusing choices into clear, objective results.</p>
                 </div>
-                <div className="mt-10 animate-fade-in delay-2">
-                    <button onClick={handleMakeDecisionClick} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-3 px-10 rounded-full text-lg shadow-[0_5px_15px_rgba(236,72,153,0.4),_inset_0_-2px_5px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_20px_rgba(236,72,153,0.5),_inset_0_-2px_5px_rgba(0,0,0,0.4)] active:shadow-[0_2px_5px_rgba(236,72,153,0.3),_inset_0_-1px_3px_rgba(0,0,0,0.4)] transition-all duration-150 transform hover:-translate-y-1 active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-pink-400 focus:ring-opacity-50 flex items-center gap-2">
-                        <Zap size={20}/> Make a Decision
-                    </button>
+                <div className="mt-8 animate-fade-in delay-2">
+                <button onClick={handleMakeDecisionClick} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-3 px-10 rounded-full text-lg shadow-[0_5px_15px_rgba(236,72,153,0.4),_inset_0_-2px_5px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_20px_rgba(236,72,153,0.5),_inset_0_-2px_5px_rgba(0,0,0,0.4)] active:shadow-[0_2px_5px_rgba(236,72,153,0.3),_inset_0_-1px_3px_rgba(0,0,0,0.4)] transition-all duration-150 transform hover:-translate-y-1 active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-pink-400 focus:ring-opacity-50">
+    Make a Decision
+</button>
                 </div>
-                <div className="mt-24 w-full max-w-6xl mx-auto animate-fade-in delay-3">
+                <div className="mt-16 w-full max-w-6xl mx-auto animate-fade-in delay-3">
                     <div className="text-center mb-8">
-                        <h2 className="text-3xl font-bold text-white" style={{ textShadow: '0 0 8px rgba(0, 0, 0, 0.7)' }}>Go Beyond Simple Polls</h2>
-                        <p className="text-lg text-slate-300 mt-2 max-w-2xl mx-auto">Find a definitive, data-driven answer that your whole team can feel confident in.</p>
+                        <h2 className="text-2xl font-bold text-white" style={{ textShadow: '0 0 8px rgba(0, 0, 0, 0.7)' }}>Go Beyond Simple Polls</h2>
+                        <p className="text-base text-slate-300 mt-2 max-w-2xl mx-auto">Find a definitive, data-driven answer that your whole team can feel confident in.</p>
                     </div>
                     <div className="max-w-xl mx-auto"><AnimatedResultsDemo /></div>
                 </div>
-                <div className="mt-20 text-center text-slate-300 w-full max-w-5xl">
+                <div className="mt-16 text-center text-slate-300 w-full max-w-5xl">
                     <h2 className="text-2xl font-bold text-white mb-6 animate-fade-in" style={{ textShadow: '0 0 8px rgba(0, 0, 0, 0.7)' }}>How It Works</h2>
                     <div className="grid md:grid-cols-3 gap-8">
                         {[ { title: "1. Frame", description: "Ask your question and list the options you're choosing between." }, { title: "2. Define", description: "List the criteria that matter for the decision, like 'Cost' or 'Quality'." }, { title: "3. Rate & Decide", description: "Share a link, have everyone rate the options, and see the best choice emerge." } ].map((step, index) => (
@@ -209,13 +235,62 @@ const HomePage = ({ navigate, user, auth, userStatus }) => {
 
 // --- Page Components ---
 
+// NEW: CheckoutModal Component
+const CheckoutModal = ({ clientSecret, onClose }) => {
+    if (!clientSecret) return null;
+
+    return (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="w-full max-w-lg relative">
+                <button onClick={onClose} className="absolute -top-4 -right-4 text-slate-400 hover:text-white bg-slate-800 rounded-full p-1 z-10"><X size={24}/></button>
+                <div id="checkout">
+                  <EmbeddedCheckoutProvider
+                    stripe={stripePromise}
+                    options={{ clientSecret }}
+                  >
+                    <EmbeddedCheckout />
+                  </EmbeddedCheckoutProvider>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const WeightSelector = ({ value, onChange }) => {
+    const weights = [1, 2, 3];
+    return (
+        <div className="flex items-center gap-2 bg-white/10 p-1 rounded-md">
+            {weights.map(w => (
+                <button
+                    key={w}
+                    type="button"
+                    onClick={() => onChange(w)}
+                    className={`px-3 py-1 text-sm rounded ${value === w ? 'bg-purple-500 text-white' : 'text-slate-300 hover:bg-white/20'}`}
+                >
+                    {w}x
+                </button>
+            ))}
+        </div>
+    );
+};
+
+
 const CreateDecisionPage = ({ db, user, userStatus, setUserStatus, navigate }) => {
     const [question, setQuestion] = useState('');
     const [options, setOptions] = useState(['', '']);
-    const [criteria, setCriteria] = useState(['']);
+    const [criteria, setCriteria] = useState([{ name: '', weight: 1 }]);
     const [isCreating, setIsCreating] = useState(false);
     const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+    
+    const handleCriteriaChange = (index, field, value) => {
+        const newCriteria = [...criteria];
+        newCriteria[index][field] = value;
+        setCriteria(newCriteria);
+    };
 
+    const addCriterion = () => setCriteria(prev => [...prev, { name: '', weight: 1 }]);
+    const removeCriterion = (index) => setCriteria(prev => prev.length > 1 ? prev.filter((_, i) => i !== index) : prev);
+    
     const checkUsageLimit = () => {
         if (userStatus.tier === 'pro') return true;
         const today = new Date().toISOString().slice(0, 10);
@@ -234,23 +309,31 @@ const CreateDecisionPage = ({ db, user, userStatus, setUserStatus, navigate }) =
         }
 
         const finalOptions = options.map((o, i) => ({ id: `opt_${i}`, name: o.trim() })).filter(o => o.name);
-        const finalCriteria = criteria.map((c, i) => ({ id: `crit_${i}`, name: c.trim(), weight: 1 })).filter(c => c.name);
-        if (!question.trim() || finalOptions.length < 2 || finalCriteria.length < 1) return;
+        let finalCriteria = criteria.map((c, i) => ({ id: `crit_${i}`, name: c.name.trim(), weight: c.weight })).filter(c => c.name);
+
+        // If no criteria are entered, create a standard poll
+        if (finalCriteria.length === 0) {
+            finalCriteria.push({ id: 'crit_0', name: 'Rating', weight: 1 });
+        }
+        
+        if (!question.trim() || finalOptions.length < 2) return;
         setIsCreating(true);
 
         try {
-            // Update user status in Firestore
-            const userStatusRef = doc(db, `artifacts/${appId}/users/${user.uid}/status`, 'main');
-            const today = new Date().toISOString().slice(0, 10);
-            const newStatus = { ...userStatus };
-            if (newStatus.lastDecisionDate === today) {
-                newStatus.decisionCountToday += 1;
-            } else {
-                newStatus.lastDecisionDate = today;
-                newStatus.decisionCountToday = 1;
+            // Update user status in Firestore for free tier usage
+            if (userStatus.tier === 'free') {
+                const userStatusRef = doc(db, `artifacts/${appId}/users/${user.uid}/status`, 'main');
+                const today = new Date().toISOString().slice(0, 10);
+                const newStatus = { ...userStatus };
+                if (newStatus.lastDecisionDate === today) {
+                    newStatus.decisionCountToday += 1;
+                } else {
+                    newStatus.lastDecisionDate = today;
+                    newStatus.decisionCountToday = 1;
+                }
+                await setDoc(userStatusRef, newStatus);
+                setUserStatus(newStatus);
             }
-            await setDoc(userStatusRef, newStatus);
-            setUserStatus(newStatus);
             
             // Create decision
             const decisionData = { question: question.trim(), options: finalOptions, criteria: finalCriteria, creatorId: user.uid, createdAt: new Date().toISOString(), votes: [], deleted: false };
@@ -289,15 +372,19 @@ const CreateDecisionPage = ({ db, user, userStatus, setUserStatus, navigate }) =
                                 </div>
                             </div>
                             <div>
-                                <h2 className="text-xl font-semibold text-white mb-3">3. What are the criteria?</h2>
+                                <h2 className="text-xl font-semibold text-white mb-3">3. What are the criteria? <span className="text-sm text-slate-400 font-light">(Optional)</span></h2>
+                                {userStatus?.tier === 'pro' && (
+                                    <p className="text-sm text-slate-400 -mt-2 mb-3">As a Pro user, you can assign weights to make some criteria more important than others.</p>
+                                )}
                                 <div className="space-y-3">
                                     {criteria.map((criterion, index) => (
                                         <div key={index} className="flex items-center gap-3">
-                                            <input type="text" value={criterion} onChange={(e) => setCriteria(prev => { const newC = [...prev]; newC[index] = e.target.value; return newC; })} placeholder={`Criterion ${index + 1} (e.g., Taste, Price)`} className="w-full p-3 bg-white/5 border border-white/20 rounded-lg text-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all placeholder-slate-400" required />
-                                            <button type="button" onClick={() => setCriteria(prev => prev.length > 1 ? prev.filter((_, i) => i !== index) : prev)} disabled={criteria.length <= 1}><Trash2 size={20} className={`transition-colors ${criteria.length > 1 ? 'text-slate-400 hover:text-pink-500' : 'text-slate-600 cursor-not-allowed'}`} /></button>
+                                            <input type="text" value={criterion.name} onChange={(e) => handleCriteriaChange(index, 'name', e.target.value)} placeholder={`Criterion ${index + 1} (e.g., Taste, Price)`} className="w-full p-3 bg-white/5 border border-white/20 rounded-lg text-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all placeholder-slate-400" />
+                                            {userStatus?.tier === 'pro' && <WeightSelector value={criterion.weight} onChange={(w) => handleCriteriaChange(index, 'weight', w)} />}
+                                            <button type="button" onClick={() => removeCriterion(index)} disabled={criteria.length <= 1}><Trash2 size={20} className={`transition-colors ${criteria.length > 1 ? 'text-slate-400 hover:text-pink-500' : 'text-slate-600 cursor-not-allowed'}`} /></button>
                                         </div>
                                     ))}
-                                    <button type="button" onClick={() => setCriteria(prev => [...prev, ''])} className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-semibold py-2 transition-colors"><Plus size={18} /> Add another criterion</button>
+                                    <button type="button" onClick={addCriterion} className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-semibold py-2 transition-colors"><Plus size={18} /> Add another criterion</button>
                                 </div>
                             </div>
                             <div className="pt-4">
@@ -315,16 +402,26 @@ const CreateDecisionPage = ({ db, user, userStatus, setUserStatus, navigate }) =
 
 const PricingPage = ({ db, user, navigate, setUserStatus, userStatus }) => {
     const [isUpgrading, setIsUpgrading] = useState(false);
+    const [showCheckout, setShowCheckout] = useState(false);
+    const [clientSecret, setClientSecret] = useState('');
+
     const handleUpgrade = async () => {
         setIsUpgrading(true);
-        const userStatusRef = doc(db, `artifacts/${appId}/users/${user.uid}/status`, 'main');
         try {
-            const newStatus = { ...userStatus, tier: 'pro' };
-            await setDoc(userStatusRef, newStatus, { merge: true });
-            setUserStatus(newStatus);
-            navigate('create');
+            const response = await fetch('http://localhost:4242/create-checkout-session', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', },
+                body: JSON.stringify({ userId: user.uid }),
+            });
+
+            if (!response.ok) throw new Error('Failed to create checkout session');
+
+            const { clientSecret } = await response.json();
+            setClientSecret(clientSecret);
+            setShowCheckout(true);
+
         } catch (error) {
-            console.error("Upgrade failed: ", error);
+            console.error("Error upgrading:", error);
         } finally {
             setIsUpgrading(false);
         }
@@ -332,6 +429,7 @@ const PricingPage = ({ db, user, navigate, setUserStatus, userStatus }) => {
     
     return (
         <div className="min-h-screen p-4 sm:p-6 md:p-8 animate-fade-in">
+             {showCheckout && <CheckoutModal clientSecret={clientSecret} onClose={() => setShowCheckout(false)} />}
              <button onClick={() => navigate('my-decisions')} className="flex items-center gap-2 text-slate-300 hover:text-white mb-6 transition-colors absolute top-6 left-6"><ArrowLeft size={18} /> Back to My Decisions</button>
             <div className="max-w-4xl mx-auto text-center">
                 <h1 className="text-5xl font-bold text-white mb-4 font-brand">Choose Your Plan</h1>
@@ -353,12 +451,12 @@ const PricingPage = ({ db, user, navigate, setUserStatus, userStatus }) => {
 
                     {/* Pro Plan */}
                     <div className="bg-purple-600/10 backdrop-blur-xl p-8 rounded-2xl border border-purple-400/30 shadow-2xl text-left relative overflow-hidden" style={{'--tw-shadow-color': 'rgba(192, 132, 252, 0.3)', boxShadow: '0 0 60px var(--tw-shadow-color)'}}>
-                        <div className="absolute top-0 right-0 bg-purple-500 text-white text-xs font-bold px-4 py-1 rounded-bl-lg">BEST VALUE</div>
                         <h2 className="text-3xl font-bold font-brand text-white">Pro</h2>
                         <p className="text-purple-300 mt-2">For teams & power users</p>
                         <p className="text-4xl font-bold text-white mt-6">£1 <span className="text-lg font-normal text-slate-400">/ month</span></p>
                         <ul className="mt-8 space-y-4 text-slate-300">
                              <li className="flex items-center gap-3"><Check className="text-green-400" size={20}/> <span className="font-bold">Unlimited</span> decisions</li>
+                             <li className="flex items-center gap-3"><Check className="text-green-400" size={20}/> Weighted criteria</li>
                             <li className="flex items-center gap-3"><Check className="text-green-400" size={20}/> Unlimited participants</li>
                             <li className="flex items-center gap-3"><Check className="text-green-400" size={20}/> Real-time results</li>
                             <li className="flex items-center gap-3"><Check className="text-green-400" size={20}/> Priority support</li>
@@ -528,10 +626,10 @@ const MyDecisionsPage = ({ db, user, navigate }) => {
                 ) : (
                     <div className="space-y-4">
                         {decisions.map(decision => (
-                             <GlassCard key={decision.id} className="!p-0 overflow-hidden hover:border-cyan-400/50 transition-colors duration-300 group flex items-center">
-                                <button onClick={() => navigate('decision', decision.id)} className="w-full text-left p-6 flex-grow">
+                            <GlassCard key={decision.id} className="!p-0 overflow-hidden hover:border-cyan-400/50 transition-colors duration-300 group relative">
+                                <button onClick={() => navigate('decision', decision.id)} className="w-full text-left p-6 pr-16">
                                     <h2 className="text-xl font-semibold text-white truncate group-hover:text-cyan-300 transition-colors">{decision.question}</h2>
-                                    <div className="flex items-center text-sm text-slate-400 mt-2 gap-4">
+                                    <div className="flex flex-wrap items-center text-sm text-slate-400 mt-2 gap-x-4 gap-y-1">
                                         <span>{new Date(decision.createdAt).toLocaleDateString()}</span>
                                         <span>&bull;</span>
                                         <span>{decision.options.length} options</span>
@@ -541,7 +639,7 @@ const MyDecisionsPage = ({ db, user, navigate }) => {
                                         <span>{decision.votes.length} votes</span>
                                     </div>
                                 </button>
-                                <button onClick={() => handleDelete(decision.id)} className="p-6 text-slate-400 hover:text-pink-500 transition-colors">
+                                <button onClick={() => handleDelete(decision.id)} className="absolute top-0 right-0 p-6 text-slate-400 hover:text-pink-500 transition-colors">
                                     <Trash2 size={20} />
                                 </button>
                             </GlassCard>
@@ -563,13 +661,20 @@ const ResultsPanel = ({ decision }) => {
         const calculatedScores = options.map(option => {
             let totalScore = 0;
             const breakdown = criteria.map(criterion => {
-                const criterionScore = votes.reduce((sum, vote) => sum + (vote.ratings[option.id]?.[criterion.id] || 0), 0);
-                totalScore += criterionScore;
-                return { name: criterion.name, score: criterionScore };
+                // For each option, sum the ratings for this criterion across all votes, multiplied by the criterion's weight
+                const criterionScore = votes.reduce((sum, vote) => {
+                    const rating = vote.ratings[option.id]?.[criterion.id] || 0;
+                    return sum + rating;
+                }, 0);
+                const weightedScore = criterionScore * criterion.weight;
+                totalScore += weightedScore;
+                return { name: criterion.name, score: weightedScore, weight: criterion.weight };
             });
             return { ...option, score: totalScore, breakdown };
         });
+        
         calculatedScores.sort((a, b) => b.score - a.score);
+        
         let clarity = 0;
         if (calculatedScores.length > 1 && calculatedScores[0].score > 0) {
             const winnerScore = calculatedScores[0].score;
@@ -598,13 +703,15 @@ const ResultsPanel = ({ decision }) => {
     
     const maxScore = scores.length > 0 && scores[0].score > 0 ? scores[0].score : 1;
 
+    const isStandardPoll = criteria.length === 1 && criteria[0].name === 'Rating';
+
     return (
         <GlassCard className="sticky top-8" style={{'--tw-shadow-color': 'rgba(56, 189, 248, 0.1)', boxShadow: '0 0 60px var(--tw-shadow-color)'}}>
             <div className="flex justify-between items-center mb-6"><h2 className="text-xl font-bold text-white font-brand">Results</h2><div className="flex items-center gap-2 text-slate-400 bg-white/10 px-3 py-1 rounded-full"><Users size={16} /><span className="font-semibold">{votes.length}</span></div></div>
             {votes.length === 0 ? ( <div className="text-center py-10"><p className="text-slate-400">No votes yet.</p><p className="text-slate-500 text-sm">Results will appear here in real-time.</p></div> ) : (
                 <div className="space-y-4">
                     {scores.map((option, index) => (
-                        <div key={option.id} className="relative" onMouseEnter={() => setActiveTooltip(option.id)} onMouseLeave={() => setActiveTooltip(null)}>
+                        <div key={option.id} className="relative" onMouseEnter={() => !isStandardPoll && setActiveTooltip(option.id)} onMouseLeave={() => setActiveTooltip(null)}>
                             <div className="flex justify-between items-baseline mb-1">
                                 <p className="font-semibold text-lg text-white truncate pr-2" title={option.name}>
                                     {index === 0 && <Award className="inline-block mr-2 -mt-1 text-yellow-400" size={18} />}
@@ -616,7 +723,7 @@ const ResultsPanel = ({ decision }) => {
                                 <div className={`rounded-full h-4 transition-all duration-500 ease-out bg-gradient-to-r ${index === 0 ? 'from-green-400 to-cyan-400' : 'from-purple-500 to-pink-500'}`} style={{ width: `${(option.score / maxScore) * 100}%`, boxShadow: index === 0 ? '0 0 10px #2dd4bf' : 'none' }}></div>
                             </div>
                             {index === 0 && clarityScore > 0 && ( <div className="mt-2 text-center text-sm text-cyan-300 font-semibold animate-fade-in relative">{clarityScore}% Clarity{showConfetti && <ConfettiExplosion />}</div> )}
-                            {activeTooltip === option.id && ( <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-max max-w-xs bg-black/80 backdrop-blur-sm text-white text-xs rounded-md p-3 z-20 shadow-lg animate-fade-in"><h4 className="font-bold text-sm mb-2 border-b border-white/20 pb-1">Score Breakdown</h4><ul className="space-y-1">{option.breakdown.map(b => <li key={b.name} className="flex justify-between gap-4"><span className="opacity-80">{b.name}:</span> <span className="font-bold">{b.score} pts</span></li>)}</ul></div> )}
+                            {activeTooltip === option.id && ( <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-max max-w-xs bg-black/80 backdrop-blur-sm text-white text-xs rounded-md p-3 z-20 shadow-lg animate-fade-in"><h4 className="font-bold text-sm mb-2 border-b border-white/20 pb-1">Score Breakdown</h4><ul className="space-y-1">{option.breakdown.map(b => <li key={b.name} className="flex justify-between gap-4"><span className="opacity-80">{b.name} (x{b.weight}):</span> <span className="font-bold">{b.score} pts</span></li>)}</ul></div> )}
                         </div>
                     ))}
                 </div>
@@ -628,6 +735,8 @@ const ResultsPanel = ({ decision }) => {
 const VotingInterface = ({ decision, db, userId, auth }) => {
     const { options, criteria, votes, id: decisionId } = decision;
     const currentUserVote = useMemo(() => votes.find(v => v.userId === userId), [votes, userId]);
+    
+    const isStandardPoll = criteria.length === 1 && criteria[0].name === 'Rating';
 
     const [myRatings, setMyRatings] = useState(() => {
         if (currentUserVote) return currentUserVote.ratings;
@@ -681,21 +790,32 @@ const VotingInterface = ({ decision, db, userId, auth }) => {
         <GlassCard className="!p-0 overflow-hidden">
             <div className="p-6">
                 <h2 className="text-xl font-bold text-white mb-1 font-brand">Your Turn to Rate</h2>
-                <p className="text-slate-400 mb-6">Rate each option from 1 to 5 stars for all criteria.</p>
+                <p className="text-slate-400 mb-6">{isStandardPoll ? "Rate each option from 1 to 5 stars." : "Rate each option from 1 to 5 stars for all criteria."}</p>
             </div>
-            <div className="overflow-x-auto">
-                <table className="w-full border-collapse text-left">
-                    <thead className="bg-white/5"><tr className="border-b-2 border-white/10"><th className="p-4 font-semibold text-slate-300">Options</th>{criteria.map(c => <th key={c.id} className="p-4 font-semibold text-slate-300 text-center min-w-[120px]">{c.name}</th>)}</tr></thead>
-                    <tbody>
-                        {options.map((option) => (
-                            <tr key={option.id} className="border-b border-white/10 last:border-b-0">
-                                <td className="p-4 font-semibold text-white">{option.name}</td>
-                                {criteria.map(c => (<td key={c.id} className="p-4 text-center"><StarRating rating={myRatings[option.id]?.[c.id] || 0} onRating={(r) => handleRatingChange(option.id, c.id, r)} /></td>))}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+            {isStandardPoll ? (
+                 <div className="p-6 pt-0 space-y-4">
+                    {options.map(option => (
+                        <div key={option.id} className="flex justify-between items-center bg-white/5 p-4 rounded-lg">
+                            <span className="font-semibold text-white">{option.name}</span>
+                            <StarRating rating={myRatings[option.id]?.[criteria[0].id] || 0} onRating={(r) => handleRatingChange(option.id, criteria[0].id, r)} />
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <div className="overflow-x-auto">
+                    <table className="w-full border-collapse text-left">
+                        <thead className="bg-white/5"><tr className="border-b-2 border-white/10"><th className="p-4 font-semibold text-slate-300">Options</th>{criteria.map(c => <th key={c.id} className="p-4 font-semibold text-slate-300 text-center min-w-[120px]">{c.name} (x{c.weight})</th>)}</tr></thead>
+                        <tbody>
+                            {options.map((option) => (
+                                <tr key={option.id} className="border-b border-white/10 last:border-b-0">
+                                    <td className="p-4 font-semibold text-white">{option.name}</td>
+                                    {criteria.map(c => (<td key={c.id} className="p-4 text-center"><StarRating rating={myRatings[option.id]?.[c.id] || 0} onRating={(r) => handleRatingChange(option.id, c.id, r)} /></td>))}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            )}
             <div className="p-6 mt-2">
                 <button onClick={handleSubmitVote} disabled={isSubmitting || !allRated} className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold py-3 px-6 rounded-lg text-lg shadow-[0_0_20px_rgba(56,189,248,0.4)] hover:shadow-[0_0_30px_rgba(56,189,248,0.7)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
                     {isSubmitting ? 'Submitting...' : (currentUserVote ? 'Update My Vote' : 'Submit My Vote')}
