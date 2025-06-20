@@ -503,13 +503,16 @@ const MyDecisionsPage = ({ db, user, navigate }) => {
                         <button onClick={() => navigate('home')} className="flex items-center gap-2 text-slate-300 hover:text-white mb-2 transition-colors"><ArrowLeft size={18} /> Back to Home</button>
                         <h1 className="text-4xl font-bold text-white font-brand">My Decisions</h1>
                     </div>
-                    <button onClick={() => navigate('create')} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-2 px-6 rounded-full text-lg shadow-[0_5px_15px_rgba(236,72,153,0.4)] hover:shadow-[0_8px_20px_rgba(236,72,153,0.5)] transition-all duration-150 transform hover:-translate-y-1">
+                </div>
+                <p className="text-slate-400 mb-4 -mt-4 text-center">Here are all the decisions you've created. Click on one to view the results or continue voting.</p>
+                
+                <div className="flex justify-center my-6">
+                    <button onClick={() => navigate('create')} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-3 px-10 rounded-full text-lg shadow-[0_5px_15px_rgba(236,72,153,0.4)] hover:shadow-[0_8px_20px_rgba(236,72,153,0.5)] transition-all duration-150 transform hover:-translate-y-1 active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-pink-400 focus:ring-opacity-50">
                         + New Decision
                     </button>
                 </div>
-                <p className="text-slate-400 mb-8 -mt-4">Here are all the decisions you've created. Click on one to view the results or continue voting.</p>
 
-                {decisions.length === 0 ? (
+                {decisions.length === 0 && !loading ? (
                     <GlassCard>
                         <div className="text-center py-8">
                           <h2 className="text-2xl font-bold text-white mb-4">No Decisions Yet!</h2>
