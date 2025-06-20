@@ -378,6 +378,7 @@ const DecisionPage = ({ db, user, decisionId, navigate }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [copied, setCopied] = useState(false);
+    const userId = user ? user.uid : null;
 
     useEffect(() => {
         if (!db || !decisionId) return;
@@ -408,7 +409,6 @@ const DecisionPage = ({ db, user, decisionId, navigate }) => {
     if (loading) return <LoadingScreen message="Loading decision..." />;
     if (error) return <ErrorScreen message={error} navigate={navigate} />;
     if (!decision) return null;
-    const userId = user ? user.uid : null;
 
     return (
         <div className="min-h-screen p-4 sm:p-6 md:p-8 animate-fade-in">
@@ -595,7 +595,8 @@ const VotingInterface = ({ decision, db, userId }) => {
 
     const handleSubmitVote = async () => {
         if (!userId) {
-            alert("You must be logged in to vote."); // This can be replaced with a more elegant modal
+            // This could be a modal in the future.
+            alert("You must be logged in to vote.");
             return;
         }
         setIsSubmitting(true);
@@ -686,11 +687,17 @@ export default function App() {
             setDb(firestoreDb);
             setAuth(firebaseAuth);
 
-            const unsubscribe = onAuthStateChanged(firebaseAuth, async (firebaseUser) => {
+            let userStatusUnsubscribe = () => {}; // Start with a no-op function
+
+            const authUnsubscribe = onAuthStateChanged(firebaseAuth, async (firebaseUser) => {
+                userStatusUnsubscribe(); // Unsubscribe from previous listener
+
                 setUser(firebaseUser);
+
                 if (firebaseUser) {
                     const userStatusRef = doc(firestoreDb, `artifacts/${appId}/users/${firebaseUser.uid}/status`, 'main');
-                    const userStatusUnsubscribe = onSnapshot(userStatusRef, (docSnap) => {
+                    // Assign the new unsubscriber
+                    userStatusUnsubscribe = onSnapshot(userStatusRef, (docSnap) => {
                         if (docSnap.exists()) {
                             setUserStatus(docSnap.data());
                         } else {
@@ -700,8 +707,7 @@ export default function App() {
                         }
                     }, (error) => {
                        console.error("Error in onSnapshot:", error);
-                   });
-                      return () => userStatusUnsubscribe();
+                    });
                 } else {
                     setUserStatus(null);
                 }
@@ -710,7 +716,12 @@ export default function App() {
                console.error("Error in onAuthStateChanged:", error);
                setIsAuthReady(true);
            });
-            return () => unsubscribe();
+
+            // Cleanup function for the useEffect hook
+            return () => {
+                authUnsubscribe();
+                userStatusUnsubscribe();
+            };
         } catch (error) {
             console.error("Error initializing Firebase:", error);
             setIsAuthReady(true);
