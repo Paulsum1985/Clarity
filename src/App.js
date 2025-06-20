@@ -177,8 +177,8 @@ const HomePage = ({ navigate, user, auth, userStatus }) => {
                     <p className="mt-3 text-lg md:text-xl text-slate-200 max-w-xl animate-fade-in delay-1" style={{ textShadow: '0 0 8px rgba(0, 0, 0, 0.7)' }}>Make better decisions, together. Turn confusing choices into clear, objective results.</p>
                 </div>
                 <div className="mt-10 animate-fade-in delay-2">
-                    <button onClick={handleMakeDecisionClick} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-3 px-10 rounded-full text-lg shadow-[0_5px_15px_rgba(236,72,153,0.4),_inset_0_-2px_5px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_20px_rgba(236,72,153,0.5)] transition-all duration-150 transform hover:-translate-y-1 active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-pink-400 focus:ring-opacity-50">
-                        Make a Decision
+                    <button onClick={handleMakeDecisionClick} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-3 px-10 rounded-full text-lg shadow-[0_5px_15px_rgba(236,72,153,0.4),_inset_0_-2px_5px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_20px_rgba(236,72,153,0.5),_inset_0_-2px_5px_rgba(0,0,0,0.4)] active:shadow-[0_2px_5px_rgba(236,72,153,0.3),_inset_0_-1px_3px_rgba(0,0,0,0.4)] transition-all duration-150 transform hover:-translate-y-1 active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-pink-400 focus:ring-opacity-50 flex items-center gap-2">
+                        <Zap size={20}/> Make a Decision
                     </button>
                 </div>
                 <div className="mt-24 w-full max-w-6xl mx-auto animate-fade-in delay-3">
@@ -498,17 +498,15 @@ const MyDecisionsPage = ({ db, user, navigate }) => {
     return (
         <div className="min-h-screen p-4 sm:p-6 md:p-8 animate-fade-in">
             <div className="max-w-4xl mx-auto">
-                <div className="flex justify-between items-center mb-6">
-                    <div>
-                        <button onClick={() => navigate('home')} className="flex items-center gap-2 text-slate-300 hover:text-white mb-2 transition-colors"><ArrowLeft size={18} /> Back to Home</button>
-                        <h1 className="text-4xl font-bold text-white font-brand">My Decisions</h1>
-                    </div>
+                <div className="text-center mb-6">
+                    <button onClick={() => navigate('home')} className="flex items-center gap-2 text-slate-300 hover:text-white mb-2 transition-colors mx-auto"><ArrowLeft size={18} /> Back to Home</button>
+                    <h1 className="text-4xl font-bold text-white font-brand">My Decisions</h1>
+                    <p className="text-slate-400 mt-2">Here are all the decisions you've created. Click on one to view the results or continue voting.</p>
                 </div>
-                <p className="text-slate-400 mb-4 -mt-4 text-center">Here are all the decisions you've created. Click on one to view the results or continue voting.</p>
                 
                 <div className="flex justify-center my-6">
-                    <button onClick={() => navigate('create')} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-3 px-10 rounded-full text-lg shadow-[0_5px_15px_rgba(236,72,153,0.4)] hover:shadow-[0_8px_20px_rgba(236,72,153,0.5)] transition-all duration-150 transform hover:-translate-y-1 active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-pink-400 focus:ring-opacity-50">
-                        + New Decision
+                    <button onClick={() => navigate('create')} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-3 px-10 rounded-full text-lg shadow-[0_5px_15px_rgba(236,72,153,0.4),_inset_0_-2px_5px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_20px_rgba(236,72,153,0.5),_inset_0_-2px_5px_rgba(0,0,0,0.4)] active:shadow-[0_2px_5px_rgba(236,72,153,0.3),_inset_0_-1px_3px_rgba(0,0,0,0.4)] transition-all duration-150 transform hover:-translate-y-1 active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-pink-400 focus:ring-opacity-50 flex items-center gap-2">
+                        <Plus size={20} /> New Decision
                     </button>
                 </div>
 
