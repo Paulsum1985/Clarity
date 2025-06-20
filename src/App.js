@@ -148,10 +148,21 @@ const Background = () => (
 );
 
 
-
+// ------------------- MODIFICATION START -------------------
 const LoginModal = ({ auth, onClose }) => {
-
-    const handleSignIn = async (provider) => { try { await signInWithRedirect(auth, provider); } catch (error) { console.error("Sign-in error:", error.code, error.message); } };
+    // Changed signInWithRedirect to signInWithPopup
+    const handleSignIn = async (provider) => {
+        try {
+            await signInWithPopup(auth, provider);
+            // The onAuthStateChanged listener will now handle the user state update.
+            // We can close the modal after the popup flow is complete.
+            onClose();
+        } catch (error) {
+            console.error("Sign-in error:", error.code, error.message);
+            // Handle specific errors like 'auth/popup-closed-by-user' if needed
+        }
+    };
+// -------------------- MODIFICATION END --------------------
 
     return (
 
@@ -577,6 +588,13 @@ export default function App() {
     
 
     // --- Routing ---
+    const navigate = useCallback((targetPage, id = null) => {
+        if (targetPage === 'decision' && id) window.location.hash = `#decision/${id}`;
+        else if (targetPage === 'create') window.location.hash = '#create';
+        else if (targetPage === 'pricing') window.location.hash = '#pricing';
+        else if (targetPage === 'my-decisions') window.location.hash = '#my-decisions';
+        else window.location.hash = '#';
+    }, []);
 
     useEffect(() => {
 
@@ -617,25 +635,12 @@ export default function App() {
         return () => window.removeEventListener('hashchange', handleHashChange);
 
     }, [user]);
-    
-    // ------------------- NEW CODE START -------------------
-    // This hook handles the post-login redirect.
-    const navigate = useCallback((targetPage, id = null) => {
-        if (targetPage === 'decision' && id) window.location.hash = `#decision/${id}`;
-        else if (targetPage === 'create') window.location.hash = '#create';
-        else if (targetPage === 'pricing') window.location.hash = '#pricing';
-        else if (targetPage === 'my-decisions') window.location.hash = '#my-decisions';
-        else window.location.hash = '#';
-    }, []);
 
     useEffect(() => {
         if (isAuthReady && user && page === 'home') {
             navigate('my-decisions');
         }
     }, [isAuthReady, user, page, navigate]);
-    // -------------------- NEW CODE END --------------------
-
-
 
     if (!isAuthReady) {
 
