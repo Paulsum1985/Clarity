@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { initializeApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged, signInWithPopup, signInWithRedirect, GoogleAuthProvider, OAuthProvider, signOut } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signInWithPopup, signInAnonymously, GoogleAuthProvider, OAuthProvider, signOut } from 'firebase/auth';
 import { getFirestore, doc, setDoc, getDoc, addDoc, collection, onSnapshot, query, where, getDocs, runTransaction } from 'firebase/firestore';
 import { ArrowLeft, Plus, Trash2, Share2, Check, Users, Star, Frown, Award, X, Zap, Crown, LogOut, User, ChevronDown, ArrowRight } from 'lucide-react';
 
@@ -144,7 +144,7 @@ const AnimatedResultsDemo = () => {
 const UserMenu = ({ user, auth, navigate, userStatus, onSignIn }) => {
     const [isOpen, setIsOpen] = useState(false);
     const handleSignOut = async () => { await signOut(auth); navigate('home'); };
-    if(!user) { return ( <div className="absolute top-6 right-6 z-30"><button onClick={onSignIn} className="bg-white/10 text-white font-semibold py-2 px-4 rounded-full hover:bg-white/20 transition-colors">Sign In</button></div> ) }
+    if(!user || user.isAnonymous) { return ( <div className="absolute top-6 right-6 z-30"><button onClick={onSignIn} className="bg-white/10 text-white font-semibold py-2 px-4 rounded-full hover:bg-white/20 transition-colors">Sign In</button></div> ) }
     return (
         <div className="absolute top-6 right-6 z-30">
             <button onClick={() => setIsOpen(!isOpen)} className="flex items-center gap-2 bg-white/10 p-2 rounded-full">
@@ -166,7 +166,7 @@ const UserMenu = ({ user, auth, navigate, userStatus, onSignIn }) => {
 
 const HomePage = ({ navigate, user, auth, userStatus }) => {
     const [showLoginModal, setShowLoginModal] = useState(false);
-    const handleMakeDecisionClick = () => { user ? navigate('create') : setShowLoginModal(true); };
+    const handleMakeDecisionClick = () => { user && !user.isAnonymous ? navigate('create') : setShowLoginModal(true); };
     return (
         <>
             {showLoginModal && <LoginModal auth={auth} onClose={() => setShowLoginModal(false)} />}
@@ -373,7 +373,7 @@ const PricingPage = ({ db, user, navigate, setUserStatus, userStatus }) => {
     );
 };
 
-const DecisionPage = ({ db, user, decisionId, navigate }) => {
+const DecisionPage = ({ db, user, auth, decisionId, navigate }) => {
     const [decision, setDecision] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -427,7 +427,7 @@ const DecisionPage = ({ db, user, decisionId, navigate }) => {
                     </div>
                 </header>
                 <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-                    <main className="lg:col-span-3"><VotingInterface decision={decision} db={db} userId={userId} /></main>
+                    <main className="lg:col-span-3"><VotingInterface decision={decision} db={db} userId={userId} auth={auth} /></main>
                     <aside className="lg:col-span-2"><ResultsPanel decision={decision} /></aside>
                 </div>
             </div>
@@ -438,6 +438,16 @@ const DecisionPage = ({ db, user, decisionId, navigate }) => {
 const MyDecisionsPage = ({ db, user, navigate }) => {
     const [decisions, setDecisions] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const exampleDecisions = [
+        "What takeaway should we get tonight?",
+        "Which movie should we see on Saturday?",
+        "Where should we go for our next team lunch?",
+        "What should be our top priority for the next sprint?",
+        "Which new feature should we build next?",
+        "What's the best name for our new project?",
+        "Which design concept is the strongest?"
+    ];
 
     useEffect(() => {
         if (!db || !user) return;
@@ -475,8 +485,16 @@ const MyDecisionsPage = ({ db, user, navigate }) => {
                 {decisions.length === 0 ? (
                     <GlassCard>
                         <div className="text-center py-8">
-                          <h2 className="text-2xl font-bold text-white mb-2">No Decisions Yet</h2>
-                          <p className="text-slate-400 mb-6">Click the button above to create your first decision.</p>
+                          <h2 className="text-2xl font-bold text-white mb-4">No Decisions Yet!</h2>
+                          <p className="text-slate-400 mb-6">Get started by creating your first poll. Here are some ideas:</p>
+                          <ul className="space-y-3 text-slate-300">
+                            {exampleDecisions.map((ex, i) => (
+                                <li key={i} className="flex items-center justify-center gap-3">
+                                    <Zap size={14} className="text-yellow-400" />
+                                    <span>{ex}</span>
+                                </li>
+                            ))}
+                          </ul>
                         </div>
                     </GlassCard>
                 ) : (
@@ -575,7 +593,7 @@ const ResultsPanel = ({ decision }) => {
     );
 };
 
-const VotingInterface = ({ decision, db, userId }) => {
+const VotingInterface = ({ decision, db, userId, auth }) => {
     const { options, criteria, votes, id: decisionId } = decision;
     const currentUserVote = useMemo(() => votes.find(v => v.userId === userId), [votes, userId]);
 
@@ -594,20 +612,23 @@ const VotingInterface = ({ decision, db, userId }) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleSubmitVote = async () => {
-        if (!userId) {
-            // This could be a modal in the future.
-            alert("You must be logged in to vote.");
-            return;
-        }
         setIsSubmitting(true);
-        const docRef = doc(db, `artifacts/${appId}/public/data/decisions/${decisionId}`);
-        const newVote = { userId, ratings: myRatings };
         try {
+            let voterId = userId;
+            // If there's no user ID, sign in anonymously to get one.
+            if (!voterId) {
+                const userCredential = await signInAnonymously(auth);
+                voterId = userCredential.user.uid;
+            }
+
+            const docRef = doc(db, `artifacts/${appId}/public/data/decisions/${decisionId}`);
+            const newVote = { userId: voterId, ratings: myRatings };
+            
             await runTransaction(db, async (t) => {
                 const sfDoc = await t.get(docRef);
                 if (!sfDoc.exists()) throw "Document does not exist!";
                 const currentVotes = sfDoc.data().votes || [];
-                const existingVoteIndex = currentVotes.findIndex(v => v.userId === userId);
+                const existingVoteIndex = currentVotes.findIndex(v => v.userId === voterId);
                 if (existingVoteIndex > -1) currentVotes[existingVoteIndex] = newVote;
                 else currentVotes.push(newVote);
                 t.update(docRef, { votes: currentVotes });
@@ -638,11 +659,10 @@ const VotingInterface = ({ decision, db, userId }) => {
                 </table>
             </div>
             <div className="p-6 mt-2">
-                <button onClick={handleSubmitVote} disabled={isSubmitting || !allRated || !userId} className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold py-3 px-6 rounded-lg text-lg shadow-[0_0_20px_rgba(56,189,248,0.4)] hover:shadow-[0_0_30px_rgba(56,189,248,0.7)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                <button onClick={handleSubmitVote} disabled={isSubmitting || !allRated} className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold py-3 px-6 rounded-lg text-lg shadow-[0_0_20px_rgba(56,189,248,0.4)] hover:shadow-[0_0_30px_rgba(56,189,248,0.7)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
                     {isSubmitting ? 'Submitting...' : (currentUserVote ? 'Update My Vote' : 'Submit My Vote')}
                 </button>
-                {!userId && <p className="text-sm text-center mt-3 text-red-400">Please sign in to vote.</p>}
-                {userId && !allRated && <p className="text-sm text-center mt-3 text-slate-500">Please rate all items to submit.</p>}
+                {!allRated && <p className="text-sm text-center mt-3 text-slate-500">Please rate all items to submit.</p>}
             </div>
         </GlassCard>
     );
@@ -687,16 +707,14 @@ export default function App() {
             setDb(firestoreDb);
             setAuth(firebaseAuth);
 
-            let userStatusUnsubscribe = () => {}; // Start with a no-op function
+            let userStatusUnsubscribe = () => {};
 
             const authUnsubscribe = onAuthStateChanged(firebaseAuth, async (firebaseUser) => {
-                userStatusUnsubscribe(); // Unsubscribe from previous listener
-
-                setUser(firebaseUser);
+                userStatusUnsubscribe(); 
 
                 if (firebaseUser) {
+                    setUser(firebaseUser);
                     const userStatusRef = doc(firestoreDb, `artifacts/${appId}/users/${firebaseUser.uid}/status`, 'main');
-                    // Assign the new unsubscriber
                     userStatusUnsubscribe = onSnapshot(userStatusRef, (docSnap) => {
                         if (docSnap.exists()) {
                             setUserStatus(docSnap.data());
@@ -709,7 +727,10 @@ export default function App() {
                        console.error("Error in onSnapshot:", error);
                     });
                 } else {
-                    setUserStatus(null);
+                    // If no user, sign in anonymously to allow voting
+                    signInAnonymously(firebaseAuth).catch((error) => {
+                        console.error("Anonymous sign-in failed:", error);
+                    });
                 }
                 setIsAuthReady(true);
             }, (error) => {
@@ -717,7 +738,6 @@ export default function App() {
                setIsAuthReady(true);
            });
 
-            // Cleanup function for the useEffect hook
             return () => {
                 authUnsubscribe();
                 userStatusUnsubscribe();
@@ -744,27 +764,21 @@ export default function App() {
                 setDecisionId(hash.split('/')[1]);
                 setPage('decision');
             } else if (hash === 'create') {
-                if(user) setPage('create'); else window.location.hash = '#';
+                if(user && !user.isAnonymous) setPage('create'); else window.location.hash = '#';
             } else if (hash === 'pricing') {
                  if(user) setPage('pricing'); else window.location.hash = '#';
             } else if (hash === 'my-decisions') {
-                 if(user) setPage('my-decisions'); else window.location.hash = '#';
+                 if(user && !user.isAnonymous) setPage('my-decisions'); else window.location.hash = '#';
             } else {
                 setPage('home');
             }
         };
         window.addEventListener('hashchange', handleHashChange);
-        handleHashChange(); // Initial check
+        handleHashChange();
         return () => window.removeEventListener('hashchange', handleHashChange);
     }, [user]);
 
-    useEffect(() => {
-        if (isAuthReady && user && page === 'home') {
-            navigate('my-decisions');
-        }
-    }, [isAuthReady, user, page, navigate]);
-
-    if (!isAuthReady) {
+    if (!isAuthReady || !user) { // Wait for user object as well
         return <LoadingScreen message="Initializing Clarity..." />;
     }
     
@@ -772,7 +786,7 @@ export default function App() {
     const renderPage = () => {
         switch (page) {
             case 'create': return user && userStatus ? <CreateDecisionPage db={db} user={user} userStatus={userStatus} setUserStatus={setUserStatus} navigate={navigate} /> : <HomePage auth={auth} navigate={navigate} user={user} userStatus={userStatus} />;
-            case 'decision': return <DecisionPage db={db} user={user} navigate={navigate} decisionId={decisionId} />;
+            case 'decision': return <DecisionPage db={db} user={user} auth={auth} navigate={navigate} decisionId={decisionId} />;
             case 'pricing': return user && userStatus ? <PricingPage db={db} user={user} navigate={navigate} setUserStatus={setUserStatus} userStatus={userStatus} /> : <HomePage auth={auth} navigate={navigate} user={user} userStatus={userStatus} />;
             case 'my-decisions': return user ? <MyDecisionsPage db={db} user={user} navigate={navigate} /> : <HomePage auth={auth} navigate={navigate} user={user} userStatus={userStatus} />;
             default: return <HomePage auth={auth} navigate={navigate} user={user} userStatus={userStatus} />;
