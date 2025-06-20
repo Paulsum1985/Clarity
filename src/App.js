@@ -342,7 +342,7 @@ const PricingPage = ({ db, user, navigate, setUserStatus, userStatus }) => {
                     <div className="bg-white/5 backdrop-blur-xl p-8 rounded-2xl border border-white/10 shadow-lg text-left">
                         <h2 className="text-3xl font-bold font-brand text-white">Free</h2>
                         <p className="text-slate-400 mt-2">For occasional decisions</p>
-                        <p className="text-4xl font-bold text-white mt-6">$0 <span className="text-lg font-normal text-slate-400">/ month</span></p>
+                        <p className="text-4xl font-bold text-white mt-6">£0 <span className="text-lg font-normal text-slate-400">/ month</span></p>
                         <ul className="mt-8 space-y-4 text-slate-300">
                             <li className="flex items-center gap-3"><Check className="text-green-400" size={20}/> 1 decision per day</li>
                             <li className="flex items-center gap-3"><Check className="text-green-400" size={20}/> Unlimited participants</li>
@@ -356,7 +356,7 @@ const PricingPage = ({ db, user, navigate, setUserStatus, userStatus }) => {
                         <div className="absolute top-0 right-0 bg-purple-500 text-white text-xs font-bold px-4 py-1 rounded-bl-lg">BEST VALUE</div>
                         <h2 className="text-3xl font-bold font-brand text-white">Pro</h2>
                         <p className="text-purple-300 mt-2">For teams & power users</p>
-                        <p className="text-4xl font-bold text-white mt-6">$1 <span className="text-lg font-normal text-slate-400">/ month</span></p>
+                        <p className="text-4xl font-bold text-white mt-6">£1 <span className="text-lg font-normal text-slate-400">/ month</span></p>
                         <ul className="mt-8 space-y-4 text-slate-300">
                              <li className="flex items-center gap-3"><Check className="text-green-400" size={20}/> <span className="font-bold">Unlimited</span> decisions</li>
                             <li className="flex items-center gap-3"><Check className="text-green-400" size={20}/> Unlimited participants</li>
@@ -444,13 +444,19 @@ const MyDecisionsPage = ({ db, user, navigate }) => {
         "Which movie should we see on Saturday?",
         "Where should we go for our next team lunch?",
         "What should be our top priority for the next sprint?",
-        "Which new feature should we build next?",
-        "What's the best name for our new project?",
-        "Which design concept is the strongest?"
+        "Which design concept is the strongest?",
+        "What's the best name for our new project?"
     ];
 
     useEffect(() => {
         if (!db || !user) return;
+        // Do not fetch decisions for anonymous users
+        if (user.isAnonymous) {
+            setDecisions([]);
+            setLoading(false);
+            return;
+        }
+
         const decisionsRef = collection(db, `artifacts/${appId}/public/data/decisions`);
         const q = query(decisionsRef, where("creatorId", "==", user.uid));
 
@@ -476,12 +482,15 @@ const MyDecisionsPage = ({ db, user, navigate }) => {
     return (
         <div className="min-h-screen p-4 sm:p-6 md:p-8 animate-fade-in">
             <div className="max-w-4xl mx-auto">
-                <div className="flex justify-between items-center mb-8">
+                <button onClick={() => navigate('home')} className="flex items-center gap-2 text-slate-300 hover:text-white mb-6 transition-colors"><ArrowLeft size={18} /> Back to Home</button>
+                <div className="flex justify-between items-center mb-6">
                     <h1 className="text-4xl font-bold text-white font-brand">My Decisions</h1>
                      <button onClick={() => navigate('create')} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-2 px-6 rounded-full text-lg shadow-[0_5px_15px_rgba(236,72,153,0.4)] hover:shadow-[0_8px_20px_rgba(236,72,153,0.5)] transition-all duration-150 transform hover:-translate-y-1">
                         + New Decision
                     </button>
                 </div>
+                <p className="text-slate-400 mb-8 -mt-4">Here are all the decisions you've created. Click on one to view the results or continue voting.</p>
+
                 {decisions.length === 0 ? (
                     <GlassCard>
                         <div className="text-center py-8">
@@ -500,17 +509,19 @@ const MyDecisionsPage = ({ db, user, navigate }) => {
                 ) : (
                     <div className="space-y-4">
                         {decisions.map(decision => (
-                            <GlassCard key={decision.id} className="!p-0 overflow-hidden hover:border-cyan-400/50 transition-colors duration-300">
-                                <button onClick={() => navigate('decision', decision.id)} className="w-full text-left p-6">
-                                    <h2 className="text-xl font-semibold text-white truncate">{decision.question}</h2>
-                                    <div className="flex items-center text-sm text-slate-400 mt-2 gap-4">
-                                        <span>{decision.options.length} options</span>
-                                        <span>&bull;</span>
-                                        <span>{decision.criteria.length} criteria</span>
-                                        <span>&bull;</span>
-                                        <span>{decision.votes.length} votes</span>
-                                         <span className="ml-auto"><ArrowRight size={18} /></span>
+                             <GlassCard key={decision.id} className="!p-0 overflow-hidden hover:border-cyan-400/50 transition-colors duration-300 group">
+                                <button onClick={() => navigate('decision', decision.id)} className="w-full text-left p-6 flex items-center justify-between">
+                                    <div>
+                                        <h2 className="text-xl font-semibold text-white truncate group-hover:text-cyan-300 transition-colors">{decision.question}</h2>
+                                        <div className="flex items-center text-sm text-slate-400 mt-2 gap-4">
+                                            <span>{decision.options.length} options</span>
+                                            <span>&bull;</span>
+                                            <span>{decision.criteria.length} criteria</span>
+                                            <span>&bull;</span>
+                                            <span>{decision.votes.length} votes</span>
+                                        </div>
                                     </div>
+                                    <ArrowRight size={20} className="text-slate-500 group-hover:text-white transition-all group-hover:translate-x-1" />
                                 </button>
                             </GlassCard>
                         ))}
@@ -607,6 +618,12 @@ const VotingInterface = ({ decision, db, userId, auth }) => {
         return initial;
     });
 
+    useEffect(() => {
+        if (currentUserVote) {
+            setMyRatings(currentUserVote.ratings);
+        }
+    }, [currentUserVote]);
+
     const handleRatingChange = (optionId, criterionId, rating) => { setMyRatings(p => ({ ...p, [optionId]: { ...p[optionId], [criterionId]: rating } })); };
     
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -615,7 +632,7 @@ const VotingInterface = ({ decision, db, userId, auth }) => {
         setIsSubmitting(true);
         try {
             let voterId = userId;
-            // If there's no user ID, sign in anonymously to get one.
+            // If there's no user ID, sign in anonymously to get one. This can happen if a user who is not logged in visits the page.
             if (!voterId) {
                 const userCredential = await signInAnonymously(auth);
                 voterId = userCredential.user.uid;
@@ -710,7 +727,7 @@ export default function App() {
             let userStatusUnsubscribe = () => {};
 
             const authUnsubscribe = onAuthStateChanged(firebaseAuth, async (firebaseUser) => {
-                userStatusUnsubscribe(); 
+                userStatusUnsubscribe();
 
                 if (firebaseUser) {
                     setUser(firebaseUser);
@@ -727,7 +744,6 @@ export default function App() {
                        console.error("Error in onSnapshot:", error);
                     });
                 } else {
-                    // If no user, sign in anonymously to allow voting
                     signInAnonymously(firebaseAuth).catch((error) => {
                         console.error("Anonymous sign-in failed:", error);
                     });
@@ -778,17 +794,17 @@ export default function App() {
         return () => window.removeEventListener('hashchange', handleHashChange);
     }, [user]);
 
-    if (!isAuthReady || !user) { // Wait for user object as well
+    if (!isAuthReady || !user) {
         return <LoadingScreen message="Initializing Clarity..." />;
     }
     
     // --- Page Rendering ---
     const renderPage = () => {
         switch (page) {
-            case 'create': return user && userStatus ? <CreateDecisionPage db={db} user={user} userStatus={userStatus} setUserStatus={setUserStatus} navigate={navigate} /> : <HomePage auth={auth} navigate={navigate} user={user} userStatus={userStatus} />;
+            case 'create': return user && userStatus && !user.isAnonymous ? <CreateDecisionPage db={db} user={user} userStatus={userStatus} setUserStatus={setUserStatus} navigate={navigate} /> : <HomePage auth={auth} navigate={navigate} user={user} userStatus={userStatus} />;
             case 'decision': return <DecisionPage db={db} user={user} auth={auth} navigate={navigate} decisionId={decisionId} />;
             case 'pricing': return user && userStatus ? <PricingPage db={db} user={user} navigate={navigate} setUserStatus={setUserStatus} userStatus={userStatus} /> : <HomePage auth={auth} navigate={navigate} user={user} userStatus={userStatus} />;
-            case 'my-decisions': return user ? <MyDecisionsPage db={db} user={user} navigate={navigate} /> : <HomePage auth={auth} navigate={navigate} user={user} userStatus={userStatus} />;
+            case 'my-decisions': return user && !user.isAnonymous ? <MyDecisionsPage db={db} user={user} navigate={navigate} /> : <HomePage auth={auth} navigate={navigate} user={user} userStatus={userStatus} />;
             default: return <HomePage auth={auth} navigate={navigate} user={user} userStatus={userStatus} />;
         }
     };
