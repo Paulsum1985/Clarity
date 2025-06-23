@@ -417,9 +417,9 @@ const PricingPage = ({ db, user, navigate, setUserStatus, userStatus }) => {
 
     // IMPORTANT: Replace these with your actual Price IDs from your Stripe Dashboard
     const priceIds = {
-      monthly: 'price_YOUR_MONTHLY_ID_HERE',
-      sixMonth: 'price_YOUR_6_MONTH_ID_HERE',
-      yearly: 'price_YOUR_YEARLY_ID_HERE',
+      monthly: 'price_1Rd4DjHaGhXNZS1MB4VvN3hu',
+      sixMonth: 'price_1Rd4EcHaGhXNZS1MACPiQ2vY',
+      yearly: 'pprice_1Rd4F2HaGhXNZS1MH4jWAZgO',
     };
 
     const handleUpgrade = async () => {
