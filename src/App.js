@@ -409,9 +409,9 @@ const PricingPage = ({ db, user, navigate, setUserStatus, userStatus }) => {
 
     // IMPORTANT: Replace these with your actual Price IDs from your Stripe Dashboard
     const priceIds = {
-      monthly: 'price_1Rd4DjHaGhXNZS1MB4VvN3hu',
-      sixMonth: 'price_1Rd4EcHaGhXNZS1MACPiQ2vY',
-      yearly: 'price_1Rd4F2HaGhXNZS1MH4jWAZgO',
+      monthly: 'price_YOUR_MONTHLY_ID_HERE',
+      sixMonth: 'price_YOUR_6_MONTH_ID_HERE',
+      yearly: 'price_YOUR_YEARLY_ID_HERE',
     };
 
     const handleUpgrade = async () => {
@@ -447,7 +447,7 @@ const PricingPage = ({ db, user, navigate, setUserStatus, userStatus }) => {
         <div className="min-h-screen p-4 sm:p-6 md:p-8 animate-fade-in">
              {showCheckout && <CheckoutModal clientSecret={clientSecret} onClose={() => setShowCheckout(false)} />}
              <button onClick={() => navigate('my-decisions')} className="flex items-center gap-2 text-slate-300 hover:text-white mb-6 transition-colors absolute top-6 left-6"><ArrowLeft size={18} /> Back to My Decisions</button>
-            <div className="max-w-4xl mx-auto text-center">
+            <div className="max-w-4xl mx-auto text-center pt-16">
                 <h1 className="text-5xl font-bold text-white mb-4 font-brand">Choose Your Plan</h1>
                 <p className="text-slate-400 mb-12 max-w-2xl mx-auto">Unlock the full power of Clarity and make unlimited decisions. Start with our free plan and upgrade anytime.</p>
                 
