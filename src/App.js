@@ -152,8 +152,9 @@ const UserMenu = ({ user, auth, navigate, userStatus, onSignIn }) => {
     const handleSignOut = async () => { await signOut(auth); navigate('home'); };
 
     const handleManageSubscription = async () => {
+        const serverUrl = process.env.REACT_APP_SERVER_URL || 'http://localhost:4242';
         try {
-            const response = await fetch('http://localhost:4242/create-customer-portal-session', {
+            const response = await fetch(`${serverUrl}/create-customer-portal-session`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ userId: user.uid }),
@@ -203,9 +204,9 @@ const HomePage = ({ navigate, user, auth, userStatus }) => {
                     <p className="mt-3 text-base md:text-lg text-slate-200 max-w-xl animate-fade-in delay-1" style={{ textShadow: '0 0 8px rgba(0, 0, 0, 0.7)' }}>Make better decisions, together. Turn confusing choices into clear, objective results.</p>
                 </div>
                 <div className="mt-8 animate-fade-in delay-2">
-                <button onClick={handleMakeDecisionClick} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-3 px-10 rounded-full text-lg shadow-[0_5px_15px_rgba(236,72,153,0.4),_inset_0_-2px_5px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_20px_rgba(236,72,153,0.5),_inset_0_-2px_5px_rgba(0,0,0,0.4)] active:shadow-[0_2px_5px_rgba(236,72,153,0.3),_inset_0_-1px_3px_rgba(0,0,0,0.4)] transition-all duration-150 transform hover:-translate-y-1 active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-pink-400 focus:ring-opacity-50">
-    Make a Decision
-</button>
+                    <button onClick={handleMakeDecisionClick} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-3 px-10 rounded-full text-lg shadow-[0_5px_15px_rgba(236,72,153,0.4),_inset_0_-2px_5px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_20px_rgba(236,72,153,0.5),_inset_0_-2px_5px_rgba(0,0,0,0.4)] active:shadow-[0_2px_5px_rgba(236,72,153,0.3),_inset_0_-1px_3px_rgba(0,0,0,0.4)] transition-all duration-150 transform hover:-translate-y-1 active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-pink-400 focus:ring-opacity-50">
+                        Make a Decision
+                    </button>
                 </div>
                 <div className="mt-16 w-full max-w-6xl mx-auto animate-fade-in delay-3">
                     <div className="text-center mb-8">
@@ -404,14 +405,23 @@ const PricingPage = ({ db, user, navigate, setUserStatus, userStatus }) => {
     const [isUpgrading, setIsUpgrading] = useState(false);
     const [showCheckout, setShowCheckout] = useState(false);
     const [clientSecret, setClientSecret] = useState('');
+    const [billingCycle, setBillingCycle] = useState('monthly');
+
+    // IMPORTANT: Replace these with your actual Price IDs from your Stripe Dashboard
+    const priceIds = {
+      monthly: 'price_1Rd4DjHaGhXNZS1MB4VvN3hu',
+      sixMonth: 'price_1Rd4EcHaGhXNZS1MACPiQ2vY',
+      yearly: 'price_1Rd4F2HaGhXNZS1MH4jWAZgO',
+    };
 
     const handleUpgrade = async () => {
         setIsUpgrading(true);
+        const serverUrl = process.env.REACT_APP_SERVER_URL || 'http://localhost:4242';
         try {
-            const response = await fetch('http://localhost:4242/create-checkout-session', {
+            const response = await fetch(`${serverUrl}/create-checkout-session`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', },
-                body: JSON.stringify({ userId: user.uid }),
+                body: JSON.stringify({ userId: user.uid, priceId: priceIds[billingCycle] }),
             });
 
             if (!response.ok) throw new Error('Failed to create checkout session');
@@ -426,6 +436,12 @@ const PricingPage = ({ db, user, navigate, setUserStatus, userStatus }) => {
             setIsUpgrading(false);
         }
     };
+
+    const pricingOptions = {
+        monthly: { price: '1.99', interval: 'month' },
+        sixMonth: { price: '9.00', interval: '6 months' },
+        yearly: { price: '15.00', interval: 'year' },
+    };
     
     return (
         <div className="min-h-screen p-4 sm:p-6 md:p-8 animate-fade-in">
@@ -437,11 +453,11 @@ const PricingPage = ({ db, user, navigate, setUserStatus, userStatus }) => {
                 
                 <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                     {/* Free Plan */}
-                    <div className="bg-white/5 backdrop-blur-xl p-8 rounded-2xl border border-white/10 shadow-lg text-left">
+                    <div className="bg-white/5 backdrop-blur-xl p-8 rounded-2xl border border-white/10 shadow-lg text-left flex flex-col">
                         <h2 className="text-3xl font-bold font-brand text-white">Free</h2>
                         <p className="text-slate-400 mt-2">For occasional decisions</p>
-                        <p className="text-4xl font-bold text-white mt-6">£0 <span className="text-lg font-normal text-slate-400">/ month</span></p>
-                        <ul className="mt-8 space-y-4 text-slate-300">
+                        <p className="text-4xl font-bold text-white mt-6">£0</p>
+                        <ul className="mt-8 space-y-4 text-slate-300 flex-grow">
                             <li className="flex items-center gap-3"><Check className="text-green-400" size={20}/> 1 decision per day</li>
                             <li className="flex items-center gap-3"><Check className="text-green-400" size={20}/> Unlimited participants</li>
                             <li className="flex items-center gap-3"><Check className="text-green-400" size={20}/> Real-time results</li>
@@ -450,11 +466,26 @@ const PricingPage = ({ db, user, navigate, setUserStatus, userStatus }) => {
                     </div>
 
                     {/* Pro Plan */}
-                    <div className="bg-purple-600/10 backdrop-blur-xl p-8 rounded-2xl border border-purple-400/30 shadow-2xl text-left relative overflow-hidden" style={{'--tw-shadow-color': 'rgba(192, 132, 252, 0.3)', boxShadow: '0 0 60px var(--tw-shadow-color)'}}>
+                    <div className="bg-purple-600/10 backdrop-blur-xl p-8 rounded-2xl border border-purple-400/30 shadow-2xl text-left flex flex-col" style={{'--tw-shadow-color': 'rgba(192, 132, 252, 0.3)', boxShadow: '0 0 60px var(--tw-shadow-color)'}}>
                         <h2 className="text-3xl font-bold font-brand text-white">Pro</h2>
                         <p className="text-purple-300 mt-2">For teams & power users</p>
-                        <p className="text-4xl font-bold text-white mt-6">£1 <span className="text-lg font-normal text-slate-400">/ month</span></p>
-                        <ul className="mt-8 space-y-4 text-slate-300">
+
+                        <div className="flex items-baseline mt-6">
+                            <p className="text-4xl font-bold text-white">£{pricingOptions[billingCycle].price}</p>
+                            <span className="text-lg font-normal text-slate-400 ml-2">/ {pricingOptions[billingCycle].interval}</span>
+                        </div>
+
+                        <div className="my-6 flex justify-center bg-black/20 rounded-lg p-1">
+                            {Object.keys(pricingOptions).map(cycle => (
+                                <button key={cycle} onClick={() => setBillingCycle(cycle)} className={`w-full py-2 text-sm font-semibold rounded-md transition-colors ${billingCycle === cycle ? 'bg-purple-500 text-white' : 'text-slate-300 hover:bg-white/10'}`}>
+                                    {cycle === 'monthly' && 'Monthly'}
+                                    {cycle === 'sixMonth' && '6 Months'}
+                                    {cycle === 'yearly' && 'Yearly'}
+                                </button>
+                            ))}
+                        </div>
+                        
+                        <ul className="space-y-4 text-slate-300 flex-grow">
                              <li className="flex items-center gap-3"><Check className="text-green-400" size={20}/> <span className="font-bold">Unlimited</span> decisions</li>
                              <li className="flex items-center gap-3"><Check className="text-green-400" size={20}/> Weighted criteria</li>
                             <li className="flex items-center gap-3"><Check className="text-green-400" size={20}/> Unlimited participants</li>
@@ -626,7 +657,7 @@ const MyDecisionsPage = ({ db, user, navigate }) => {
                 ) : (
                     <div className="space-y-4">
                         {decisions.map(decision => (
-                            <GlassCard key={decision.id} className="!p-0 overflow-hidden hover:border-cyan-400/50 transition-colors duration-300 group relative">
+                             <GlassCard key={decision.id} className="!p-0 overflow-hidden hover:border-cyan-400/50 transition-colors duration-300 group relative">
                                 <button onClick={() => navigate('decision', decision.id)} className="w-full text-left p-6 pr-16">
                                     <h2 className="text-xl font-semibold text-white truncate group-hover:text-cyan-300 transition-colors">{decision.question}</h2>
                                     <div className="flex flex-wrap items-center text-sm text-slate-400 mt-2 gap-x-4 gap-y-1">

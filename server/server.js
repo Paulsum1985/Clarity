@@ -5,7 +5,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const admin = require('firebase-admin');
 
 // Initialize Firebase Admin SDK
-const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
+const serviceAccount = require('./serviceAccountKey.json');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
@@ -13,7 +13,7 @@ const db = admin.firestore();
 
 const app = express();
 
-app.use(cors({ origin: ['http://localhost:3000', 'https://clarity-4zb9.onrender.com'] }));
+app.use(cors({ origin: ['http://localhost:3000', 'https://www.clarity-decisions.com'] }));
 
 // We must define the JSON parser with the verify function BEFORE any routes that need the raw body.
 app.use(express.json({
@@ -94,22 +94,20 @@ app.post('/stripe-webhook', async (req, res) => {
   res.status(200).send();
 });
 
-// Updated endpoint to create an EMBEDDED checkout session
+// Updated endpoint to handle a dynamic price ID from the frontend
 app.post('/create-checkout-session', async (req, res) => {
-    const { userId } = req.body;
+    const { userId, priceId } = req.body; // Expect a priceId from the client
   
     try {
       const session = await stripe.checkout.sessions.create({
-        ui_mode: 'embedded', // Add this line for embedded checkout
+        ui_mode: 'embedded',
         payment_method_types: ['card'],
-        line_items: [{ price: process.env.STRIPE_PRICE_ID, quantity: 1 }],
+        line_items: [{ price: priceId, quantity: 1 }], // Use the priceId from the request
         mode: 'subscription',
         client_reference_id: userId,
-        // The return URL is where the user is sent after completing the checkout in the modal
         return_url: `http://localhost:3000/#my-decisions?session_id={CHECKOUT_SESSION_ID}`,
       });
   
-      // For embedded mode, we send back the client_secret
       res.send({ clientSecret: session.client_secret });
     } catch (error) {
       console.error('Error creating Stripe session:', error);
@@ -117,7 +115,7 @@ app.post('/create-checkout-session', async (req, res) => {
     }
 });
 
-// New endpoint to create a Billing Portal session
+// Endpoint to create a Billing Portal session
 app.post('/create-customer-portal-session', async (req, res) => {
   const { userId } = req.body;
 
