@@ -4,7 +4,7 @@ const cors = require('cors');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const admin = require('firebase-admin');
 
-// Initialize Firebase Admin SDK
+// Initialize Firebase Admin SDK from environment variable
 const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -13,7 +13,8 @@ const db = admin.firestore();
 
 const app = express();
 
-app.use(cors({ origin: ['http://localhost:3000', 'https://www.clarity-decisions.com'] }));
+// Configure CORS to allow requests from your local and live frontend
+app.use(cors({ origin: [process.env.CLIENT_URL || 'http://localhost:3000', 'https://www.clarity-decisions.com'] }));
 
 // We must define the JSON parser with the verify function BEFORE any routes that need the raw body.
 app.use(express.json({
@@ -22,7 +23,7 @@ app.use(express.json({
   }
 }));
 
-// A simple test route to make sure the server is running
+// A simple test route
 app.get('/', (req, res) => {
   res.send('Clarity backend server is running!');
 });
@@ -56,10 +57,10 @@ app.post('/stripe-webhook', async (req, res) => {
       
       const userStatusRef = db.collection(`artifacts/clarity-app-local/users/${userId}/status`).doc('main');
       try {
-        await userStatusRef.update({ 
+        await userStatusRef.set({ 
           tier: 'pro',
           stripeCustomerId: session.customer 
-        });
+        }, { merge: true });
         console.log(`User ${userId} upgraded to Pro plan.`);
       } catch (error) {
         console.error('Error upgrading user to Pro:', error);
@@ -72,19 +73,13 @@ app.post('/stripe-webhook', async (req, res) => {
 
       console.log(`Subscription cancelled for customer: ${stripeCustomerId}`);
       
-      const usersCollectionRef = db.collection(`artifacts/clarity-app-local/users`);
-      const q = usersCollectionRef.where('stripeCustomerId', '==', stripeCustomerId);
+      // Use a collection group query to find the user status regardless of which user it's under
+      const querySnapshot = await db.collectionGroup('status').where('stripeCustomerId', '==', stripeCustomerId).get();
 
-      try {
-        const querySnapshot = await q.get();
-        querySnapshot.forEach(async (userDoc) => {
-          console.log(`Downgrading user ${userDoc.id} to free plan.`);
-          const userStatusRef = userDoc.ref.collection('status').doc('main');
-          await userStatusRef.update({ tier: 'free' });
-        });
-      } catch (error) {
-        console.error('Error downgrading user:', error);
-      }
+      querySnapshot.forEach(async (doc) => {
+        console.log(`Downgrading user ${doc.ref.parent.parent.id} to free plan.`);
+        await doc.ref.update({ tier: 'free' });
+      });
       break;
     }
     default:
@@ -94,18 +89,20 @@ app.post('/stripe-webhook', async (req, res) => {
   res.status(200).send();
 });
 
-// Updated endpoint to handle a dynamic price ID from the frontend
+// Endpoint to create a checkout session
 app.post('/create-checkout-session', async (req, res) => {
-    const { userId, priceId } = req.body; // Expect a priceId from the client
+    const { userId, priceId } = req.body;
+    const clientUrl = process.env.CLIENT_URL || 'http://localhost:3000';
   
     try {
       const session = await stripe.checkout.sessions.create({
         ui_mode: 'embedded',
         payment_method_types: ['card'],
-        line_items: [{ price: priceId, quantity: 1 }], // Use the priceId from the request
+        line_items: [{ price: priceId, quantity: 1 }],
         mode: 'subscription',
         client_reference_id: userId,
-        return_url: `http://localhost:3000/#my-decisions?session_id={CHECKOUT_SESSION_ID}`,
+        allow_promotion_codes: true, // This enables the promo code field
+        return_url: `${clientUrl}/#my-decisions?session_id={CHECKOUT_SESSION_ID}`,
       });
   
       res.send({ clientSecret: session.client_secret });
@@ -118,6 +115,7 @@ app.post('/create-checkout-session', async (req, res) => {
 // Endpoint to create a Billing Portal session
 app.post('/create-customer-portal-session', async (req, res) => {
   const { userId } = req.body;
+  const clientUrl = process.env.CLIENT_URL || 'http://localhost:3000';
 
   try {
     const userStatusRef = db.collection(`artifacts/clarity-app-local/users/${userId}/status`).doc('main');
@@ -135,7 +133,7 @@ app.post('/create-customer-portal-session', async (req, res) => {
 
     const portalSession = await stripe.billingPortal.sessions.create({
       customer: stripeCustomerId,
-      return_url: 'http://localhost:3000/#my-decisions',
+      return_url: `${clientUrl}/#my-decisions`,
     });
 
     res.json({ url: portalSession.url });
@@ -147,5 +145,5 @@ app.post('/create-customer-portal-session', async (req, res) => {
 });
 
 
-const PORT = process.env.PORT || 4242;
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
