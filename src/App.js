@@ -127,9 +127,8 @@ const AnimatedResultsDemo = () => {
     return (
         <GlassCard>
             <div className="text-center mb-6">
-                <p className="text-slate-400 text-sm font-semibold tracking-wider uppercase">THE QUESTION</p>
-                <h3 className="text-xl md:text-2xl font-bold text-white font-brand">{demoPoll.question}</h3>
-            </div>
+    <h3 className="text-xl md:text-2xl font-bold text-white font-brand">{demoPoll.question}</h3>
+</div>
             <div className="flex justify-between items-center mb-6"><h2 className="text-xl font-bold text-white font-brand">Results</h2><div className="flex items-center gap-2 text-slate-400 bg-white/10 px-3 py-1 rounded-full"><Users size={16} /><span className="font-semibold">8</span></div></div>
             <div className="space-y-4">
                 {demoPoll.scores.map((option, index) => (
