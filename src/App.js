@@ -113,19 +113,26 @@ const LoginModal = ({ auth, onClose }) => {
 };
 
 const AnimatedResultsDemo = () => {
-    const scores = useMemo(() => [
-        { id: 'opt_1', name: 'Sushi Samba', score: 32 },
-        { id: 'opt_2', name: 'The Italian Place', score: 25 },
-        { id: 'opt_3', name: 'Vegan Burger Joint', score: 18 },
-    ], []);
-    const maxScore = scores[0].score;
+    const demoPoll = useMemo(() => ({
+        question: 'Where should we go for dinner?',
+        scores: [
+            { id: 'opt_1', name: 'Sushi Samba', score: 32 },
+            { id: 'opt_2', name: 'The Italian Place', score: 25 },
+            { id: 'opt_3', name: 'Vegan Burger Joint', score: 18 },
+        ]
+    }), []);
+    const maxScore = demoPoll.scores[0].score;
     const barGradients = [ 'from-green-400 to-cyan-400', 'from-blue-400 to-purple-500', 'from-purple-500 to-pink-500' ];
     const glowEffects = [ '0 0 10px #2dd4bf', '0 0 10px #a78bfa', '0 0 10px #f472b6' ];
     return (
         <GlassCard>
+            <div className="text-center mb-6">
+                <p className="text-slate-400 text-sm font-semibold tracking-wider uppercase">THE QUESTION</p>
+                <h3 className="text-xl md:text-2xl font-bold text-white font-brand">{demoPoll.question}</h3>
+            </div>
             <div className="flex justify-between items-center mb-6"><h2 className="text-xl font-bold text-white font-brand">Results</h2><div className="flex items-center gap-2 text-slate-400 bg-white/10 px-3 py-1 rounded-full"><Users size={16} /><span className="font-semibold">8</span></div></div>
             <div className="space-y-4">
-                {scores.map((option, index) => (
+                {demoPoll.scores.map((option, index) => (
                     <div key={option.id} className="animate-fade-in" style={{animationDelay: `${0.5 + index * 0.2}s`}}>
                         <div className="flex justify-between items-baseline mb-1">
                             <div className="flex-1 min-w-0">
@@ -146,7 +153,6 @@ const AnimatedResultsDemo = () => {
         </GlassCard>
     )
 };
-
 const UserMenu = ({ user, auth, navigate, userStatus, onSignIn }) => {
     const [isOpen, setIsOpen] = useState(false);
     const handleSignOut = async () => { await signOut(auth); navigate('home'); };
