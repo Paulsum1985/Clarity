@@ -397,10 +397,13 @@ const CreateDecisionPage = ({ db, user, userStatus, setUserStatus, navigate }) =
                                 </div>
                             </div>
                             <div className="pt-4">
-                                <button type="submit" disabled={isCreating} className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-4 px-8 rounded-lg text-xl shadow-[0_0_20px_rgba(236,72,153,0.4)] hover:shadow-[0_0_30px_rgba(236,72,153,0.7)] transition-all duration-300 disabled:opacity-50 disabled:cursor-wait">
-                                    {isCreating ? 'Creating...' : 'Create & Get Link'}
-                                </button>
-                            </div>
+    <p className="text-center text-slate-400 text-sm mb-4">
+        Don't worry, anyone you share this link with can vote without needing an account.
+    </p>
+    <button type="submit" disabled={isCreating} className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-4 px-8 rounded-lg text-xl shadow-[0_0_20px_rgba(236,72,153,0.4)] hover:shadow-[0_0_30px_rgba(236,72,153,0.7)] transition-all duration-300 disabled:opacity-50 disabled:cursor-wait">
+        {isCreating ? 'Creating...' : 'Create & Get Link'}
+    </button>
+</div>
                         </form>
                     </GlassCard>
                 </div>
