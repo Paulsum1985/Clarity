@@ -208,9 +208,16 @@ const HomePage = ({ navigate, user, auth, userStatus }) => {
             <div className="flex flex-col items-center justify-center min-h-screen p-4 overflow-hidden">
                 <UserMenu user={user} auth={auth} navigate={navigate} userStatus={userStatus} onSignIn={() => setShowLoginModal(true)} />
                 <div className="text-center">
-                    <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tighter font-brand animate-fade-in" style={{ textShadow: '0 0 10px rgba(255,255,255,0.2), 0 0 25px rgba(236,72,153,0.3), 0 0 40px rgba(168,85,247,0.3)' }}>Clarity</h1>
-                    <p className="mt-3 text-base md:text-lg text-slate-200 max-w-xl animate-fade-in delay-1" style={{ textShadow: '0 0 8px rgba(0, 0, 0, 0.7)' }}>Make better decisions, together. Turn confusing choices into clear, objective results.</p>
-                </div>
+    <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tighter font-brand animate-fade-in" style={{ textShadow: '0 0 10px rgba(255,255,255,0.2), 0 0 25px rgba(236,72,153,0.3), 0 0 40px rgba(168,85,247,0.3)' }}>Clarity</h1>
+    <p className="mt-3 text-base md:text-lg text-slate-200 max-w-xl animate-fade-in delay-1" style={{ textShadow: '0 0 8px rgba(0, 0, 0, 0.7)' }}>Make better decisions, together. Turn confusing choices into clear, objective results.</p>
+    
+    {/* Product Hunt Badge */}
+    <div className="mt-6 animate-fade-in delay-2 flex justify-center">
+        <a href="https://www.producthunt.com/products/clarity-13?embed=true&utm_source=badge-featured&utm_medium=badge&utm_source=badge-clarity--c0df8d3b--f4ff--4ae9--9be1--6286eb7b291f" target="_blank" rel="noopener noreferrer">
+            <img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=982522&theme=neutral&t=1750776570386" alt="Clarity - Group decision-making, clarified. | Product Hunt" style={{width: '250px', height: '54px'}} width="250" height="54" />
+        </a>
+    </div>
+</div>
                 <div className="mt-8 animate-fade-in delay-2">
                     <button onClick={handleMakeDecisionClick} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-3 px-10 rounded-full text-lg shadow-[0_5px_15px_rgba(236,72,153,0.4),_inset_0_-2px_5px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_20px_rgba(236,72,153,0.5),_inset_0_-2px_5px_rgba(0,0,0,0.4)] active:shadow-[0_2px_5px_rgba(236,72,153,0.3),_inset_0_-1px_3px_rgba(0,0,0,0.4)] transition-all duration-150 transform hover:-translate-y-1 active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-pink-400 focus:ring-opacity-50">
                         Make a Decision
