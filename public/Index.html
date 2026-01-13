@@ -13,14 +13,14 @@
     <!-- Replace 'PASTE_YOUR_CODE_HERE' with the code Google gives you (HTML Tag method) -->
     <meta name="google-site-verification" content="PASTE_YOUR_CODE_HERE" />
 
-    <!-- *** ANALYTICS ACTION REQUIRED: Google Analytics 4 *** -->
-    <!-- Replace 'G-XXXXXXXXXX' (both places) with your actual Measurement ID -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CW10YREPFF"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX');
+
+      gtag('config', 'G-CW10YREPFF');
     </script>
 
     <!-- PWA Manifest (Makes it installable) -->
@@ -863,7 +863,8 @@
             // Update Strategy Date
             let finalDate = new Date(); finalDate.setMonth(finalDate.getMonth() + strat.months);
             document.getElementById('final-date').innerText = finalDate.toLocaleString('default', { month: 'long', year: 'numeric' });
-            
+            document.getElementById('time-saved-text').innerText = `${Math.floor(strat.months/12)} Years, ${strat.months%12} Months`;
+
             // Update Baseline Text
             const baseText = document.getElementById('time-min-text');
             if (base.never) {
