@@ -9,6 +9,20 @@
     <!-- CRITICAL SEO TAG: Canonical URL -->
     <link rel="canonical" href="https://www.clarity-decisions.com/">
 
+    <!-- *** SEO ACTION REQUIRED: Google Search Console Verification *** -->
+    <!-- Replace 'PASTE_YOUR_CODE_HERE' with the code Google gives you (HTML Tag method) -->
+    <meta name="google-site-verification" content="PASTE_YOUR_CODE_HERE" />
+
+    <!-- *** ANALYTICS ACTION REQUIRED: Google Analytics 4 *** -->
+    <!-- Replace 'G-XXXXXXXXXX' (both places) with your actual Measurement ID -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+
     <!-- PWA Manifest (Makes it installable) -->
     <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiQ2xhcml0eSBEZWNpc2lvbnMiLCJzaG9ydF9uYW1lIjoiQ2xhcml0eSIsInN0YXJ0X3VybCI6Ii8iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjMDIwNjE3IiwidGhlbWVfY29sb3IiOiIjM2I4MmY2IiwiaWNvbnMiOlt7InNyYyI6Imh0dHBzOi8vY2RuLWljb25zLXBuZy5mbGF0aWNvbi5jb20vNTEyLzI1MzQvMjUzNDIyMS5wbmciLCJzaXplcyI6IjUxMng1MTIiLCJ0eXBlIjoiaW1hZ2UvcG5nIn1dfQ==">
     <meta name="theme-color" content="#020617">
@@ -20,6 +34,8 @@
     <meta property="og:url" content="https://www.clarity-decisions.com/">
     <meta property="og:title" content="Get Clarity on Your Debt. Make the Decision to be Free.">
     <meta property="og:description" content="Use the free Clarity Calculator to visualize your debt-free date. No signup required.">
+    
+    <!-- *** IMAGE ACTION REQUIRED: Create and upload a file named 'share-card.png' *** -->
     <meta property="og:image" content="https://clarity-decisions.com/share-card.png">
 
     <!-- Dynamic Favicon -->
@@ -847,8 +863,7 @@
             // Update Strategy Date
             let finalDate = new Date(); finalDate.setMonth(finalDate.getMonth() + strat.months);
             document.getElementById('final-date').innerText = finalDate.toLocaleString('default', { month: 'long', year: 'numeric' });
-            document.getElementById('time-saved-text').innerText = `${Math.floor(strat.months/12)} Years, ${strat.months%12} Months`;
-
+            
             // Update Baseline Text
             const baseText = document.getElementById('time-min-text');
             if (base.never) {
