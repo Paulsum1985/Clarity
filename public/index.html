@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Debt Clearing Calculator | The Ultimate Free Payoff Planner</title>
+    
+    <link rel="canonical" href="https://www.clarity-decisions.com/">
+    <meta name="description" content="The #1 free Debt Clearing Calculator. Generate a month-by-month amortization schedule, compare Snowball vs. Avalanche, and get a custom strategy to become debt-free fast.">
+    <meta name="keywords" content="debt snowball calculator, amortization schedule, credit card payoff planner, debt avalanche calculator, how to clear debt, loan repayment strategy, financial freedom tool">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Clarity Decisions">
+
+    <!-- VERIFICATION & ANALYTICS -->
+    <!-- Replace 'PASTE_YOUR_CODE_HERE' with your Google Search Console verification code if you have one -->
+    <meta name="google-site-verification" content="PASTE_YOUR_CODE_HERE" />
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CW10YREPFF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-CW10YREPFF');
+    </script>
+
+    <!-- PWA / MOBILE CAPABILITIES -->
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiQ2xhcml0eSBEZWNpc2lvbnMiLCJzaG9ydF9uYW1lIjoiQ2xhcml0eSIsInN0YXJ0X3VybCI6Ii8iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjMDIwNjE3IiwidGhlbWVfY29sb3IiOiIjM2I4MmY2IiwiaWNvbnMiOlt7InNyYyI6Imh0dHBzOi8vY2RuLWljb25zLXBuZy5mbGF0aWNvbi5jb20vNTEyLzI1MzQvMjUzNDIyMS5wbmciLCJzaXplcyI6IjUxMng1MTIiLCJ0eXBlIjoiaW1hZ2UvcG5nIn1dfQ==">
+
+    <!-- SOCIAL SHARING -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.clarity-decisions.com/">
+    <meta property="og:title" content="How to Clear Debt Quickly | Advanced Calculator">
+    <meta property="og:description" content="Stop guessing. Use the Clarity Engine to visualize your exact debt-free date.">
+    <meta property="og:image" content="https://clarity-decisions.com/share-card.png">
+
+    <!-- DYNAMIC FAVICON -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+
+    <!-- PERFORMANCE -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+    <!-- *** RICH RESULTS SCHEMAS *** -->
+    
+    <!-- 1. Software Application Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Clarity Debt Clearing Calculator",
+      "description": "Professional-grade debt payoff calculator offering Snowball and Avalanche strategies with detailed amortization schedules.",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": "Debt Snowball Calculation, Avalanche Method, Amortization Schedule, Interest Savings Estimator"
+    }
+    </script>
+
+    <!-- 2. Breadcrumb Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.clarity-decisions.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Calculators",
+        "item": "https://www.clarity-decisions.com/#tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Debt Payoff Planner",
+        "item": "https://www.clarity-decisions.com/"
+      }]
+    }
+    </script>
+
+    <!-- 3. HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to clear debt fast using the Snowball Method",
+      "step": [
+        { "@type": "HowToStep", "name": "List your debts", "text": "Enter every credit card, loan, and overdraft balance along with their interest rates." },
+        { "@type": "HowToStep", "name": "Choose a strategy", "text": "Select 'Snowball' to pay off smallest balances first for motivation, or 'Avalanche' to target high interest rates." },
+        { "@type": "HowToStep", "name": "Calculate your budget", "text": "Determine how much extra money you can afford to pay monthly above your minimums." },
+        { "@type": "HowToStep", "name": "Execute the plan", "text": "Pay the minimum on everything, and put all extra funds towards the top priority debt." }
+      ]
+    }
+    </script>
+
+    <!-- 4. FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "What is the fastest way to clear debt?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Mathematically, the 'Avalanche Method' is fastest. By paying off debts with the highest interest rates first, you minimize the compound interest working against you, reducing both the time and total cost." }
+      }, {
+        "@type": "Question",
+        "name": "Is this calculator secure?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Clarity Decisions uses client-side processing. Your financial data is processed instantly in your own browser memory and is never transmitted to any external server or database." }
+      }]
+    }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+
+    <style>
+        :root {
+            /* COLOR PALETTE */
+            --bg-body: #000000;
+            --glass-panel: rgba(10, 10, 12, 0.85);
+            --glass-border: rgba(59, 130, 246, 0.3);
+            --glass-blur: blur(40px);
+            
+            --text-primary: #F5F5F7;
+            --text-secondary: rgba(255, 255, 255, 0.85);
+            --text-muted: rgba(148, 163, 184, 1.0);
+            
+            /* ACCENT COLOR (Electric Blue) */
+            --accent: #3b82f6; 
+            --accent-glow: rgba(59, 130, 246, 0.5);
+            --accent-hover: #2563eb;
+            
+            --input-bg: rgba(255, 255, 255, 0.08);
+            --input-focus: rgba(59, 130, 246, 0.2);
+            
+            --success: #34c759; 
+            --danger: #ef4444;
+        }
+
+        * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- VIDEO BACKGROUND --- */
+        #bg-video-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; overflow: hidden; background: #000;
+        }
+        #bg-video {
+            width: 100%; height: 100%; object-fit: cover; opacity: 0.5;
+        }
+        .vignette {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, rgba(0,0,0,0.1), #000000);
+            z-index: 0; pointer-events: none;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding: 0 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 1000;
+            height: 50px;
+        }
+        .logo { 
+            font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em;
+            color: white; display: flex; align-items: center; gap: 8px;
+        }
+        .logo i { color: var(--accent); font-size: 0.9em; }
+        
+        .currency-switch {
+            display: flex; background: rgba(255, 255, 255, 0.1); 
+            padding: 2px; border-radius: 6px; 
+        }
+        .curr-btn {
+            padding: 3px 10px; font-size: 0.75rem; font-weight: 600; 
+            color: var(--text-secondary); cursor: pointer; border-radius: 4px; transition: 0.2s;
+        }
+        .curr-btn:hover { color: white; }
+        .curr-btn.active { background: var(--accent); color: white; box-shadow: 0 2px 8px var(--accent-glow); }
+
+        /* --- HERO --- */
+        .hero {
+            text-align: center;
+            padding: 20px 20px 10px; 
+            position: relative;
+            max-width: 1024px; margin: 0 auto;
+        }
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.8rem); 
+            font-weight: 800; letter-spacing: -0.03em; margin: 0 0 8px 0; line-height: 1.05;
+            color: #F5F5F7;
+        }
+        .hero h1 span {
+            background: linear-gradient(135deg, #F5F5F7 30%, var(--accent) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            display: inline-block; font-size: 1em; font-weight: 800;
+        }
+        
+        .main-tagline {
+            font-size: 1.1rem; font-weight: 500; color: rgba(255,255,255,0.95); margin: 0 auto 8px;
+            max-width: 700px; letter-spacing: -0.01em;
+        }
+        .sub-tagline {
+            font-size: 0.9rem; color: var(--text-muted); max-width: 500px; margin: 0 auto 10px;
+        }
+        
+        .trust-bar {
+            display: flex; justify-content: center; gap: 25px; opacity: 0.5; margin-bottom: 0px;
+        }
+        .trust-bar i { font-size: 1.2rem; color: white; transition: color 0.3s; }
+        .trust-bar:hover i { color: var(--accent); }
+
+        /* --- LAYOUT --- */
+        .app-container {
+            max-width: 1100px;
+            margin: 10px auto 60px;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            align-items: start;
+        }
+        .full-width-card { grid-column: 1 / -1; }
+
+        @media(max-width: 960px) { 
+            .app-container { grid-template-columns: 1fr; gap: 24px; }
+            .hero { padding-top: 30px; }
+        }
+
+        /* --- CARDS & UI --- */
+        .card {
+            background: var(--glass-panel);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8);
+            position: relative; overflow: hidden;
+            display: flex; flex-direction: column;
+            transition: transform 0.3s ease, border-color 0.3s;
+        }
+        .card:hover { border-color: rgba(59, 130, 246, 0.6); }
+
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+        .card-title { font-size: 1rem; font-weight: 600; color: white; display: flex; align-items: center; gap: 10px; letter-spacing: 0.5px; }
+
+        /* Toggles */
+        .strategy-toggle { 
+            display: flex; background: rgba(0,0,0,0.4); padding: 3px; 
+            border-radius: 12px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); 
+        }
+        .toggle-opt {
+            flex: 1; text-align: center; padding: 8px; font-size: 0.85rem; font-weight: 500; color: var(--text-muted); 
+            cursor: pointer; border-radius: 9px; transition: 0.3s;
+        }
+        .toggle-opt.active { 
+            background: rgba(59, 130, 246, 0.2); 
+            color: #60a5fa; 
+            border: 1px solid var(--accent); 
+            font-weight: 700; 
+        }
+
+        .debt-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        .debt-row {
+            display: grid; grid-template-columns: 1.5fr 1fr 0.8fr 0.8fr 30px; gap: 10px; align-items: end;
+            padding: 0 0 14px 0; border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .debt-row:last-child { border-bottom: none; }
+        
+        @media(max-width: 600px) {
+            .debt-row { grid-template-columns: 1fr 1fr; gap: 12px; position: relative; padding-top: 10px; padding-bottom: 18px;}
+            .col-name { grid-column: 1 / -1; }
+            .col-del { position: absolute; top: 12px; right: 0; }
+        }
+
+        .input-col label { 
+            font-size: 0.65rem; font-weight: 700; color: var(--text-muted); 
+            text-transform: uppercase; margin-bottom: 5px; display: block; letter-spacing: 0.5px; 
+        }
+        input {
+            width: 100%; padding: 10px 12px; 
+            background: var(--input-bg); 
+            border: 1px solid transparent; 
+            border-radius: 8px; 
+            font-size: 0.95rem; font-family: inherit; color: white; font-weight: 500; transition: all 0.2s;
+        }
+        input:focus { background: var(--input-focus); border-color: var(--accent); box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); }
+
+        .btn-add {
+            width: 100%; padding: 10px; border: 1px dashed rgba(255,255,255,0.2); 
+            background: transparent; color: var(--text-secondary); 
+            font-weight: 500; cursor: pointer; border-radius: 8px; transition: 0.2s; font-size: 0.85rem;
+        }
+        .btn-add:hover { border-color: var(--accent); color: var(--accent); background: rgba(59, 130, 246, 0.05); }
+
+        /* Slider */
+        .slider-container { margin: 20px 0; }
+        .slider-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+        input[type=range] { -webkit-appearance: none; width: 100%; height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; padding: 0; border: none; }
+        input[type=range]::-webkit-slider-thumb { 
+            -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%; 
+            background: var(--accent); cursor: pointer; box-shadow: 0 0 15px var(--accent-glow); 
+            margin-top: -8px; 
+        }
+        input[type=range]::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; }
+
+        /* --- BUTTON --- */
+        .btn-primary {
+            width: 100%; padding: 18px; 
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 50%, #60a5fa 100%);
+            color: white; border: none; border-radius: 12px; 
+            font-weight: 700; font-size: 1rem; cursor: pointer;
+            transition: all 0.3s ease; letter-spacing: 0.5px; text-transform: uppercase;
+            margin-top: 8px;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            position: relative;
+            overflow: hidden;
+            animation: pulse-glow 3s infinite;
+        }
+        .btn-primary:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.7);
+            filter: brightness(1.1);
+        }
+        .btn-primary::after {
+            content: ''; position: absolute; top: 0; left: -150%; width: 150%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: skewX(-20deg); animation: shine-sweep 3s infinite;
+        }
+        @keyframes shine-sweep { 0% { left: -150%; opacity: 0; } 50% { opacity: 1; } 100% { left: 150%; opacity: 0; } }
+        @keyframes pulse-glow { 0% { box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); } 50% { box-shadow: 0 4px 25px rgba(59, 130, 246, 0.6); } 100% { box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); } }
+
+        /* --- DASHBOARD SUMMARY --- */
+        .result-summary {
+            text-align: center; padding: 15px 0; margin-bottom: 5px;
+        }
+        .freedom-date { 
+            font-size: 3rem; font-weight: 800; line-height: 1.1; 
+            background: linear-gradient(to bottom, #fff, #bfdbfe);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            letter-spacing: -2px; margin-bottom: 2px;
+        }
+        .freedom-sub { font-size: 0.75rem; color: var(--accent); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; }
+
+        .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .metric-box { 
+            padding: 15px; border-radius: 12px; font-size: 0.8rem; text-align: center; 
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+        }
+        .metric-val { display: block; font-weight: 700; font-size: 1.1rem; margin-top: 5px; color: white; }
+        
+        .metric-save .metric-val { color: var(--success); text-shadow: 0 0 15px rgba(52, 199, 89, 0.3); }
+        .metric-waste .metric-val { color: rgba(255,255,255,0.7); }
+
+        .comparison-bar {
+            margin: 18px 0; background: rgba(0,0,0,0.3); border-radius: 10px; padding: 16px; border: 1px solid rgba(255,255,255,0.08);
+        }
+        .bar-row { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 6px; }
+        .progress-track { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin-bottom: 12px; }
+        .progress-fill { 
+            height: 100%; border-radius: 3px; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); 
+            background: var(--accent); box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        .chart-container { height: 350px; width: 100%; position: relative; }
+        
+        /* --- CHART PLACEHOLDER --- */
+        #chart-placeholder {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            color: var(--text-muted); text-align: center;
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+        }
+
+        /* --- TABS SYSTEM --- */
+        .tabs-header { display: flex; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 25px; gap: 20px; }
+        .tab-btn {
+            padding: 10px 0; color: var(--text-muted); cursor: pointer; font-weight: 600; font-size: 0.9rem;
+            border-bottom: 2px solid transparent; transition: 0.2s;
+        }
+        .tab-btn:hover { color: white; }
+        .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+        
+        .tab-content { display: none; animation: fadeIn 0.4s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- DETAILED TABLE --- */
+        .schedule-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-top: 10px; }
+        .schedule-table th { text-align: left; padding: 14px; color: var(--text-muted); border-bottom: 1px solid rgba(255,255,255,0.1); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; font-size: 0.75rem; }
+        .schedule-table td { padding: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); color: rgba(255,255,255,0.8); }
+        
+        /* --- ACTION PLAN --- */
+        .plan-list { background: transparent; }
+        .plan-step { 
+            padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); 
+            display: flex; align-items: flex-start; gap: 15px; 
+            transition: 0.2s;
+        }
+        .plan-step:hover { background: rgba(255,255,255,0.02); }
+        
+        .step-num { 
+            background: rgba(255,255,255,0.1); color: white; width: 28px; height: 28px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0;
+        }
+        .badge-focus {
+            background: var(--accent); color: white; padding: 2px 6px; border-radius: 4px; 
+            font-size: 0.6rem; font-weight: 800; text-transform: uppercase; margin-left: 8px; letter-spacing: 0.5px;
+            box-shadow: 0 0 8px var(--accent-glow);
+        }
+
+        /* --- SEO CONTENT BLOCKS --- */
+        .content-section {
+            max-width: 800px; margin: 60px auto; padding: 0 20px;
+            color: var(--text-secondary);
+        }
+        .content-block h2 { font-size: 2rem; color: white; margin-bottom: 20px; letter-spacing: -1px; }
+        .content-block h3 { font-size: 1.3rem; color: white; margin-top: 35px; margin-bottom: 15px; }
+        .content-block p { margin-bottom: 20px; font-size: 1rem; line-height: 1.7; }
+        .content-block ul { margin-bottom: 20px; padding-left: 20px; line-height: 1.8; }
+        
+        .glossary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 30px; }
+        .glossary-item { background: rgba(255,255,255,0.03); padding: 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); }
+        .glossary-term { font-weight: 700; color: white; font-size: 0.95rem; margin-bottom: 6px; display: block; }
+        .glossary-def { font-size: 0.85rem; color: var(--text-muted); }
+
+        .faq-item { border-bottom: 1px solid rgba(255,255,255,0.1); padding: 18px 0; }
+        .faq-q { font-weight: 500; color: white; cursor: pointer; display: flex; justify-content: space-between; font-size: 1rem; transition: color 0.2s; }
+        .faq-q:hover { color: var(--accent); }
+        .faq-a { margin-top: 12px; display: none; color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem; }
+        .faq-item.active .faq-a { display: block; }
+
+        /* Footer */
+        footer {
+            text-align: center; padding: 40px 20px; 
+            color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.1);
+            background: black; position: relative; z-index: 10;
+        }
+
+        /* Sticky CTA for Mobile */
+        .mobile-cta {
+            position: fixed; bottom: 20px; left: 20px; right: 20px; z-index: 900; display: none;
+        }
+        @media(max-width: 768px) { .mobile-cta { display: block; } }
+
+        /* Loading & Confetti */
+        #loading-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(12px);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 50; border-radius: 20px; display: none;
+        }
+        .spinner { width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.1); border-left-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        #confetti { position: absolute; top:0; left:0; width:100%; height:100%; pointer-events: none; z-index: 5; }
+
+        .affiliate-card {
+            margin-top: 8px; font-size: 0.8rem; color: var(--danger); display: flex; gap: 6px; align-items: center;
+        }
+
+        #diagnosis-box {
+            background: rgba(59, 130, 246, 0.15); 
+            border: 1px solid var(--accent); 
+            padding: 20px; 
+            border-radius: 12px; 
+            margin-bottom: 20px; 
+            font-size: 0.9rem; 
+            color: #ffffff;
+            display: none; 
+            line-height: 1.6;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5); 
+        }
+        #diagnosis-box strong { color: #93c5fd; }
+        
+        /* Print Styles */
+        @media print {
+            body { background: white; color: black; font-family: sans-serif; }
+            nav, .hero, .btn-primary, .mobile-cta, .strategy-toggle, .slider-container, footer, .content-section, .btn-add, .col-del, .currency-switch, .tabs-header, .mobile-cta, #bg-video-container { display: none !important; }
+            .app-container { display: block; max-width: 100%; margin: 0; }
+            .card { background: white; border: none; box-shadow: none; padding: 0; margin-bottom: 20px; color: black; backdrop-filter: none; }
+            .freedom-date { color: black; -webkit-text-fill-color: black; }
+            .schedule-table { color: black; }
+            .schedule-table th, .schedule-table td { border-bottom: 1px solid #ccc; color: black; }
+            input { color: black; border: none; background: none; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="bg-video-container">
+        <video id="bg-video" muted autoplay loop playsinline></video>
+        <div class="vignette"></div>
+    </div>
+
+    <nav>
+        <div class="logo">
+            <i class="fas fa-circle-notch"></i> Clarity
+        </div>
+        
+        <div class="currency-switch">
+            <div class="curr-btn active" id="curr-usd" onclick="setCurrency('$')">$</div>
+            <div class="curr-btn" id="curr-gbp" onclick="setCurrency('£')">£</div>
+            <div class="curr-btn" id="curr-eur" onclick="setCurrency('€')">€</div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h1>Debt Free.<br><span>Mathematically Proven.</span></h1>
+        
+        <p class="main-tagline">"Get Clarity on your Debt. Make the Decision to be Free."</p>
+        <p class="sub-tagline">Visualize your freedom date using the Snowball or Avalanche method.</p>
+        
+        <div class="trust-bar">
+            <i class="fab fa-cc-visa" title="Visa"></i>
+            <i class="fab fa-cc-mastercard" title="Mastercard"></i>
+            <i class="fas fa-university" title="Banks"></i>
+            <i class="fas fa-file-contract" title="Loans"></i>
+        </div>
+    </header>
+
+    <div class="app-container">
+        
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title"><i class="fas fa-sliders-h" style="color:var(--accent); font-size:0.9em;"></i> Configuration</div>
+            </div>
+
+            <div class="strategy-toggle">
+                <div class="toggle-opt active" id="btn-snowball" onclick="setStrategy('snowball')">Snowball (Fast Wins)</div>
+                <div class="toggle-opt" id="btn-avalanche" onclick="setStrategy('avalanche')">Avalanche (Save Money)</div>
+            </div>
+
+            <div id="debt-list" class="debt-list"></div>
+
+            <button class="btn-add" onclick="addDebtRow()">+ Add Liability</button>
+
+            <div class="slider-container">
+                <div class="slider-header">
+                    <label style="color:white; font-weight:600; font-size:0.85rem;">Monthly Extra Payment</label>
+                    <span id="slider-val" style="color:var(--accent); font-weight:700;">$200</span>
+                </div>
+                <input type="range" id="extra-pay-slider" min="0" max="2000" step="10" value="200" oninput="syncSlider(this.value)">
+                <div style="margin-top:10px;">
+                     <input type="number" id="extra-pay" value="200" oninput="syncInput(this.value)" style="display:none;"> 
+                </div>
+            </div>
+
+            <button class="btn-primary" onclick="startCalculation()">Calculate Freedom Date</button>
+        </div>
+
+        <div class="card" id="results-card">
+            <canvas id="confetti"></canvas>
+            
+            <div id="loading-overlay"><div class="spinner"></div><div style="margin-top:20px; font-weight:500; color:white; font-size:0.9rem;">Crunching Numbers...</div></div>
+
+            <div class="result-summary">
+                <div>
+                    <div class="freedom-sub">DEBT FREE BY</div>
+                    <div class="freedom-date" id="final-date">--</div>
+                </div>
+                <div class="metric-grid">
+                    <div class="metric-box metric-save">Interest Saved <span class="metric-val" id="val-saved">--</span></div>
+                    <div class="metric-box metric-waste">Total Interest <span class="metric-val" id="val-paid">--</span></div>
+                </div>
+            </div>
+
+            <div class="comparison-bar">
+                <div class="bar-row">
+                    <span style="color:var(--text-muted)">Minimums Only</span>
+                    <span style="color:var(--danger)" id="time-min-text">Forever</span>
+                </div>
+                <div class="progress-track"><div class="progress-fill" style="width:100%; background:rgba(255,255,255,0.2); box-shadow:none;"></div></div>
+                
+                <div class="bar-row">
+                    <span style="color:white">Clarity Strategy</span>
+                    <span style="color:var(--success)" id="time-saved-text">--</span>
+                </div>
+                <div class="progress-track"><div id="progress-bar-smart" class="progress-fill" style="width:0%; background:var(--accent);"></div></div>
+            </div>
+
+            <div id="diagnosis-box"></div>
+        </div>
+
+        <div class="card full-width-card" id="visuals-card">
+            <div class="card-header">
+                <div class="card-title" style="font-size:1.1rem; color:white;">
+                    <i class="fas fa-chart-line" style="color:var(--accent); margin-right:8px;"></i> Financial Projection
+                </div>
+            </div>
+
+            <div class="tabs-header">
+                <div class="tab-btn active" onclick="switchTab('chart', this)">Visual Graph</div>
+                <div class="tab-btn" onclick="switchTab('schedule', this)">Data Table</div>
+            </div>
+
+            <div id="tab-chart" class="tab-content active">
+                <div class="chart-container">
+                    <div id="chart-placeholder">
+                        <i class="fas fa-chart-area" style="font-size: 2rem; margin-bottom: 10px; opacity: 0.5;"></i>
+                        <p>Calculate to view chart</p>
+                    </div>
+                    <canvas id="chart" style="display:none;"></canvas>
+                </div>
+            </div>
+
+            <div id="tab-schedule" class="tab-content">
+                <div style="max-height:500px; overflow-y:auto; border:1px solid var(--glass-border); border-radius:12px;">
+                    <table class="schedule-table">
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>Date</th>
+                                <th>Balance</th>
+                                <th>Paid</th>
+                            </tr>
+                        </thead>
+                        <tbody id="schedule-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card full-width-card">
+            <div class="card-header">
+                <div class="card-title" style="font-size:1.1rem; color:white;">
+                    <i class="fas fa-clipboard-check" style="color:var(--accent); margin-right:8px;"></i> Monthly Action Plan
+                </div>
+            </div>
+            
+            <div id="strategy-explainer" style="background:rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding:15px; margin-bottom:20px; font-size:0.9rem; color:var(--text-secondary); border-radius:10px;">
+                Loading strategy...
+            </div>
+            
+            <div id="action-plan" class="plan-list"></div>
+        </div>
+
+    </div>
+
+    <div class="content-section content-block">
+        <h2>Strategic Debt Repayment.</h2>
+        <p>Paying off debt effectively requires more than just making payments; it requires a mathematical strategy. Clarity Decisions provides professional-grade tools usually reserved for financial advisors, completely free, in a privacy-first environment.</p>
+
+        <div class="glossary-grid">
+            <div class="glossary-item">
+                <span class="glossary-term">Snowball Method</span>
+                <span class="glossary-def">Targeting the smallest debt balance first to build psychological momentum. Best for staying motivated.</span>
+            </div>
+            <div class="glossary-item">
+                <span class="glossary-term">Avalanche Method</span>
+                <span class="glossary-def">Targeting the highest interest rate first to minimize total cost. Best for mathematical optimization.</span>
+            </div>
+            <div class="glossary-item">
+                <span class="glossary-term">Consolidation</span>
+                <span class="glossary-def">Combining multiple high-interest debts into a single lower-interest loan to reduce monthly payments.</span>
+            </div>
+        </div>
+
+        <h3>Common Questions</h3>
+        
+        <div class="faq-item" onclick="this.classList.toggle('active')">
+            <div class="faq-q">Which debt should I pay off first? <i class="fas fa-plus" style="font-size:0.8rem; opacity:0.5;"></i></div>
+            <div class="faq-a">If you need a quick "win" to feel good, pay off the smallest balance (Snowball). If you want to save the most money over time, pay off the debt with the highest interest rate (Avalanche). Our calculator allows you to toggle between both to compare.</div>
+        </div>
+
+        <div class="faq-item" onclick="this.classList.toggle('active')">
+            <div class="faq-q">Does this tool work for student loans? <i class="fas fa-plus" style="font-size:0.8rem; opacity:0.5;"></i></div>
+            <div class="faq-a">Yes. You can enter student loans, credit cards, car finance, and personal loans. We generally recommend prioritizing high-interest consumer debt (credit cards) over lower-interest student loans.</div>
+        </div>
+
+        <div class="faq-item" onclick="this.classList.toggle('active')">
+            <div class="faq-q">Is my data secure? <i class="fas fa-plus" style="font-size:0.8rem; opacity:0.5;"></i></div>
+            <div class="faq-a">Absolutely. Clarity Decisions operates on a "Client-Side" model. This means all calculations happen instantly on your device. We do not have a database, user accounts, or any way to see your financial numbers.</div>
+        </div>
+        
+        <div style="margin-top:60px; font-size:0.8rem; color:var(--text-muted);">
+            <h3>Calculation Methodology</h3>
+            <p>This calculator uses standard NPER and PMT financial formulas to simulate amortization. It assumes that minimum payments are either a fixed amount or a percentage of the balance (calculated as 2% for credit cards by default if not specified). Interest is compounded monthly. Results are estimates for planning purposes.</p>
+        </div>
+    </div>
+
+    <div class="mobile-cta">
+        <button class="btn-primary" onclick="startCalculation()" style="box-shadow: 0 10px 40px rgba(0,0,0,0.8);">Calculate Now</button>
+    </div>
+
+    <footer>
+        <div style="margin-bottom:10px;">&copy; 2026 Clarity Decisions.</div>
+        <div style="opacity: 0.6;">This tool is for educational purposes only.</div>
+    </footer>
+
+    <script>
+        // --- Video Background Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const videoUrls = [
+                "https://customer-cbeadsgr09pnsezs.cloudflarestream.com/90bb1b34646b81b3b63e5a854ea00da3/manifest/video.m3u8",
+                "https://customer-cbeadsgr09pnsezs.cloudflarestream.com/df176a2fb2ea2b64bd21ae1c10d3af6a/manifest/video.m3u8",
+                "https://customer-cbeadsgr09pnsezs.cloudflarestream.com/12a9780eeb1ea015801a5f55cf2e9d3d/manifest/video.m3u8",
+                "https://customer-cbeadsgr09pnsezs.cloudflarestream.com/964cb3eddff1a67e3772aac9a7aceea2/manifest/video.m3u8",
+                "https://customer-cbeadsgr09pnsezs.cloudflarestream.com/dd17599dfa77f41517133fa7a4967535/manifest/video.m3u8",
+                "https://customer-cbeadsgr09pnsezs.cloudflarestream.com/408ad52e3f15bc8f01ae69d194a8cf3a/manifest/video.m3u8"
+            ];
+            
+            const randomVideo = videoUrls[Math.floor(Math.random() * videoUrls.length)];
+            const video = document.getElementById('bg-video');
+
+            if (Hls.isSupported()) {
+                const hls = new Hls();
+                hls.loadSource(randomVideo);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                    video.play().catch(e => console.log("Auto-play prevented"));
+                });
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = randomVideo;
+                video.addEventListener('loadedmetadata', function() {
+                    video.play();
+                });
+            }
+        });
+
+        // --- State ---
+        let debts = [
+            { name: 'Credit Card', bal: 1500, rate: 24.9, min: 45 },
+            { name: 'Car Loan', bal: 6500, rate: 7.9, min: 180 },
+            { name: 'Personal Loan', bal: 800, rate: 12.5, min: 50 }
+        ];
+        let strategy = 'snowball';
+        let currency = '$';
+        let chartInstance = null;
+
+        // --- Init ---
+        function init() {
+            loadData();
+            renderList();
+            setCurrencyUI();
+            // Don't draw chart on init to show placeholder instead
+            document.getElementById('final-date').innerText = "Ready?";
+        }
+
+        // --- Core Logic ---
+        function saveData() {
+            const data = {
+                debts: debts,
+                strategy: strategy,
+                currency: currency,
+                extra: document.getElementById('extra-pay').value
+            };
+            localStorage.setItem('clarityData', JSON.stringify(data));
+        }
+
+        function loadData() {
+            const saved = localStorage.getItem('clarityData');
+            if(saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    if(data.debts) debts = data.debts;
+                    if(data.strategy) strategy = data.strategy;
+                    if(data.currency) currency = data.currency;
+                    if(data.extra) {
+                        document.getElementById('extra-pay').value = data.extra;
+                        document.getElementById('extra-pay-slider').value = data.extra;
+                    }
+                    document.querySelectorAll('.toggle-opt').forEach(b => b.classList.remove('active'));
+                    document.getElementById('btn-'+strategy).classList.add('active');
+                } catch(e) {}
+            }
+        }
+
+        function setCurrency(c) {
+            currency = c;
+            setCurrencyUI();
+            saveData();
+            renderList();
+            if(document.getElementById('final-date').innerText !== "Ready?") calculate();
+        }
+
+        function setCurrencyUI() {
+            document.querySelectorAll('.curr-btn').forEach(btn => btn.classList.remove('active'));
+            if(currency === '$') document.getElementById('curr-usd').classList.add('active');
+            if(currency === '£') document.getElementById('curr-gbp').classList.add('active');
+            if(currency === '€') document.getElementById('curr-eur').classList.add('active');
+            const val = document.getElementById('extra-pay').value;
+            document.getElementById('slider-val').innerText = currency + val;
+        }
+
+        function renderList() {
+            const container = document.getElementById('debt-list');
+            container.innerHTML = '';
+            debts.forEach((d, i) => {
+                const el = document.createElement('div');
+                el.className = 'debt-row';
+                el.innerHTML = `
+                    <div class="input-col col-name"><label>Liability</label><input type="text" aria-label="Debt Name" value="${d.name}" onchange="updateDebt(${i}, 'name', this.value)"></div>
+                    <div class="input-col"><label>Balance (${currency})</label><input type="number" aria-label="Balance" inputmode="numeric" value="${d.bal}" onchange="updateDebt(${i}, 'bal', this.value)"></div>
+                    <div class="input-col"><label>APR %</label><input type="number" aria-label="Interest Rate" inputmode="numeric" value="${d.rate}" onchange="updateDebt(${i}, 'rate', this.value)"></div>
+                    <div class="input-col"><label>Min ${currency}</label><input type="number" aria-label="Minimum Payment" inputmode="numeric" value="${d.min}" onchange="updateDebt(${i}, 'min', this.value)"></div>
+                    <button style="background:none; border:none; color:rgba(255,255,255,0.3); padding:0 0 10px 10px;" aria-label="Remove Debt" onclick="removeDebt(${i})"><i class="fas fa-times"></i></button>
+                `;
+                container.appendChild(el);
+            });
+        }
+
+        function addDebtRow() { debts.push({name:'', bal:0, rate:0, min:0}); renderList(); saveData(); }
+        function removeDebt(i) { debts.splice(i, 1); renderList(); saveData(); }
+        function updateDebt(i, f, v) { debts[i][f] = f === 'name' ? v : parseFloat(v)||0; saveData(); }
+        
+        function setStrategy(s) {
+            strategy = s;
+            document.querySelectorAll('.toggle-opt').forEach(b => b.classList.remove('active'));
+            document.getElementById('btn-'+s).classList.add('active');
+            saveData();
+            if(document.getElementById('final-date').innerText !== "Ready?") calculate();
+        }
+
+        function syncSlider(val) {
+            document.getElementById('extra-pay').value = val;
+            document.getElementById('slider-val').innerText = currency + val;
+            saveData();
+        }
+        function syncInput(val) {
+            document.getElementById('extra-pay-slider').value = val;
+            document.getElementById('slider-val').innerText = currency + val;
+            saveData();
+        }
+
+        // --- FIXED TAB SWITCHING ---
+        function switchTab(tab, element) {
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            
+            // Add active class to clicked button (if passed), or fallback
+            if(element) {
+                element.classList.add('active');
+            } else {
+                // Initial fallback
+                if(tab === 'chart') document.querySelector('.tab-btn:first-child').classList.add('active');
+            }
+            
+            // Hide all tab content
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            // Show specific tab
+            const target = document.getElementById('tab-'+tab);
+            if(target) target.classList.add('active');
+        }
+
+        function startCalculation() {
+            const overlay = document.getElementById('loading-overlay');
+            overlay.style.display = 'flex';
+            if(window.innerWidth < 960) document.getElementById('results-card').scrollIntoView({behavior:'smooth'});
+            
+            setTimeout(() => { 
+                try {
+                    calculate(); 
+                    fireConfetti();
+                } catch(e) {
+                    console.error("Calc Error", e);
+                } finally {
+                    overlay.style.display = 'none';
+                }
+            }, 800);
+        }
+
+        function calculate() {
+            const base = simulateBaseline(debts);
+            const strat = simulateStrategy(debts, strategy, parseFloat(document.getElementById('extra-pay').value) || 0);
+            updateDashboard(base, strat);
+        }
+
+        function simulateBaseline(originalDebts) {
+            let totalInterest = 0;
+            let maxMonths = 0;
+            let neverPayoff = false;
+
+            originalDebts.forEach(d => {
+                let bal = d.bal, rate = d.rate, min = d.min, months = 0, interestAcc = 0;
+                if (bal * (rate/100/12) >= min && bal > 0) neverPayoff = true;
+
+                while(bal > 0 && months < 1200) {
+                    months++;
+                    let interest = bal * (rate/100/12);
+                    interestAcc += interest;
+                    bal += interest;
+                    if(bal < min) bal = 0; else bal -= min;
+                }
+                if(months >= 1200) neverPayoff = true;
+                totalInterest += interestAcc;
+                maxMonths = Math.max(maxMonths, months);
+            });
+            return { months: maxMonths, interest: totalInterest, never: neverPayoff };
+        }
+
+        function simulateStrategy(originalDebts, strat, extraMoney) {
+            let list = JSON.parse(JSON.stringify(originalDebts));
+            if (strat === 'snowball') list.sort((a,b) => a.bal - b.bal);
+            else list.sort((a,b) => b.rate - a.rate);
+
+            let totalInterest = 0, months = 0;
+            let totalPrincipal = list.reduce((a,b) => a+b.bal, 0);
+            let history = [totalPrincipal];
+            let labels = ['Start'];
+            let highInterestFound = false, highestRate = 0;
+            let schedule = []; 
+
+            while(totalPrincipal > 1 && months < 600) {
+                months++;
+                let avail = extraMoney;
+                let monthPaid = 0;
+                
+                list.forEach(d => {
+                    if(d.rate > 20) { highInterestFound = true; highestRate = Math.max(highestRate, d.rate); }
+                    if(d.bal > 0) {
+                        let interest = d.bal * (d.rate/100/12);
+                        d.bal += interest;
+                        totalInterest += interest;
+                        
+                        let pay = d.min;
+                        if(d.bal < pay) { pay = d.bal; d.bal = 0; avail += (d.min - pay); }
+                        else { d.bal -= pay; }
+                        monthPaid += pay;
+                    } else { avail += d.min; }
+                });
+
+                for(let d of list) {
+                    if(d.bal > 0) {
+                        if(d.bal <= avail) { avail -= d.bal; monthPaid += avail; d.bal = 0; }
+                        else { d.bal -= avail; monthPaid += avail; avail = 0; }
+                    }
+                }
+
+                totalPrincipal = list.reduce((a,b) => a+b.bal, 0);
+                history.push(totalPrincipal);
+                
+                let d = new Date(); d.setMonth(d.getMonth() + months);
+                let dateStr = d.toLocaleString('default',{month:'short', year:'2-digit'});
+                if(months % 4 === 0) labels.push(dateStr); else labels.push('');
+                
+                schedule.push({ month: months, date: dateStr, balance: totalPrincipal, paid: monthPaid });
+            }
+
+            return { months, interest: totalInterest, history, labels, highInterestFound, highestRate, schedule };
+        }
+
+        function updateDashboard(base, strat) {
+            let finalDate = new Date(); finalDate.setMonth(finalDate.getMonth() + strat.months);
+            document.getElementById('final-date').innerText = finalDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+            
+            // Baseline Text
+            const baseText = document.getElementById('time-min-text');
+            if (base.never) { baseText.innerText = "Never (Debt Trap)"; baseText.style.color = "var(--danger)"; }
+            else { baseText.innerText = `${Math.floor(base.months/12)} Years, ${base.months%12} Months`; baseText.style.color = "var(--text-muted)"; }
+
+            // Metrics
+            document.getElementById('val-paid').innerText = currency + Math.floor(strat.interest).toLocaleString();
+            
+            let saved = 0;
+            if (base.never) document.getElementById('val-saved').innerText = "Infinite";
+            else {
+                saved = Math.max(0, base.interest - strat.interest);
+                document.getElementById('val-saved').innerText = currency + Math.floor(saved).toLocaleString();
+            }
+
+            // Progress Bar
+            let percent = 100;
+            if (!base.never && base.months > 0) percent = (strat.months / base.months) * 100;
+            else if (base.never) percent = 10;
+            document.getElementById('progress-bar-smart').style.width = Math.max(5, percent) + "%";
+            document.getElementById('time-saved-text').innerText = `${Math.floor(strat.months/12)} Years, ${strat.months%12} Months`;
+
+            // Diagnosis
+            const diagBox = document.getElementById('diagnosis-box');
+            diagBox.style.display = 'block';
+            let diagText = `<strong>Analysis:</strong> You have ${debts.length} active debts. By adding ${currency}${document.getElementById('extra-pay').value}, you will be free in <strong>${strat.months} months</strong>. `;
+            if(strat.highInterestFound) diagText += `⚠️ <strong>Critical:</strong> You have debt with ${strat.highestRate}% APR. Prioritize this.`;
+            else diagText += `Good progress!`;
+            diagBox.innerHTML = diagText;
+
+            // HANDLE CHART VISIBILITY
+            document.getElementById('chart-placeholder').style.display = 'none';
+            document.getElementById('chart').style.display = 'block';
+            drawChart(strat.labels, strat.history);
+
+            try {
+                renderActionPlan(strat);
+                // FIXED: Direct render of schedule with safety check
+                renderSchedule(strat.schedule);
+            } catch(e) { console.error("Rendering Details Failed", e); }
+            
+            document.title = `Freedom in ${strat.months} Months! | Clarity Decisions`;
+        }
+
+        function renderActionPlan(strat) {
+            let html = '';
+            let extra = parseFloat(document.getElementById('extra-pay').value) || 0;
+            let list = JSON.parse(JSON.stringify(debts));
+            
+            if (strategy === 'snowball') list.sort((a,b) => a.bal - b.bal); else list.sort((a,b) => b.rate - a.rate);
+
+            const explainer = document.getElementById('strategy-explainer');
+            const focusName = list[0] ? list[0].name : 'Unknown';
+            if(strategy === 'snowball') explainer.innerHTML = `<strong>Strategy: Snowball (Momentum).</strong> <br>Focusing ${currency}${extra} extra on <strong>${focusName}</strong> (lowest balance).`;
+            else explainer.innerHTML = `<strong>Strategy: Avalanche (Math).</strong> <br>Focusing ${currency}${extra} extra on <strong>${focusName}</strong> (highest interest).`;
+
+            list.forEach((d, i) => {
+                let paymentAmount = d.min;
+                let isFocus = (i === 0);
+                let badge = '', rowStyle = '', amountStyle = 'color:var(--text-muted);';
+
+                if (isFocus) {
+                    paymentAmount = d.min + extra;
+                    badge = `<span class="badge-focus">FOCUS</span>`;
+                    rowStyle = `background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.4);`;
+                    amountStyle = `color:white; font-weight:800; font-size:1.1rem;`;
+                }
+
+                let alert = '';
+                if(d.rate > 15) alert = `<div class="affiliate-card"><i class="fas fa-exclamation-triangle aff-icon"></i><div><div class="aff-content">High Rate (${d.rate}%). Consider Transfer.</div></div></div>`;
+
+                html += `
+                    <div class="plan-step" style="flex-direction:column; gap:8px; ${rowStyle}">
+                        <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+                            <div style="display:flex; gap:15px; align-items:center;">
+                                <div class="step-num" style="${isFocus ? 'background:var(--accent); color:white;' : ''}">${i+1}</div>
+                                <div><strong style="color:white; font-size:0.95rem;">${d.name} ${badge}</strong><div style="font-size:0.75rem; color:var(--text-muted);">${currency}${d.bal} Balance @ ${d.rate}%</div></div>
+                            </div>
+                            <div style="text-align:right;"><div style="font-size:0.65rem; color:var(--text-muted); text-transform:uppercase;">Pay This Month</div><div style="${amountStyle}">${currency}${paymentAmount.toLocaleString()}</div></div>
+                        </div>
+                        ${alert}
+                    </div>`;
+            });
+            document.getElementById('action-plan').innerHTML = html;
+        }
+
+        // --- FIXED SCHEDULE TABLE RENDERER ---
+        function renderSchedule(schedule) {
+            const tbody = document.getElementById('schedule-body');
+            if(!tbody) return; // Safety check
+            
+            // Performance optimization: Build giant string first
+            let htmlRows = '';
+            schedule.forEach(row => {
+                htmlRows += `<tr>
+                    <td>${row.month}</td>
+                    <td>${row.date}</td>
+                    <td>${currency}${Math.floor(row.balance).toLocaleString()}</td>
+                    <td>${currency}${Math.floor(row.paid).toLocaleString()}</td>
+                </tr>`;
+            });
+            tbody.innerHTML = htmlRows;
+        }
+
+        function drawChart(labels, data) {
+            if (typeof Chart === 'undefined') return;
+
+            const ctx = document.getElementById('chart').getContext('2d');
+            
+            if(chartInstance) {
+                chartInstance.destroy();
+                chartInstance = null;
+            }
+            
+            let gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(59, 130, 246, 0.5)'); 
+            gradient.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
+            
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{ 
+                        data: data, 
+                        borderColor: '#3b82f6', 
+                        backgroundColor: gradient, 
+                        borderWidth: 2, 
+                        fill: true, 
+                        tension: 0.4, 
+                        pointRadius: 0, 
+                        pointHoverRadius: 6,
+                        pointBackgroundColor: '#3b82f6'
+                    }]
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    plugins: { 
+                        legend: {display: false}, 
+                        tooltip: {
+                            intersect: false, 
+                            mode: 'index',
+                            backgroundColor: 'rgba(0,0,0,0.8)',
+                            titleColor: '#fff',
+                            bodyColor: '#ccc'
+                        } 
+                    }, 
+                    scales: { 
+                        x: { 
+                            grid: {display: false}, 
+                            ticks: {color: '#666', maxTicksLimit: 6} 
+                        }, 
+                        y: { 
+                            grid: {color: 'rgba(255,255,255,0.05)'}, 
+                            ticks: {color: '#666'},
+                            beginAtZero: true
+                        } 
+                    } 
+                }
+            });
+        }
+
+        function fireConfetti() {
+            const canvas = document.getElementById('confetti'); const ctx = canvas.getContext('2d');
+            canvas.width = canvas.parentElement.offsetWidth; canvas.height = canvas.parentElement.offsetHeight;
+            let particles = []; 
+            const colors = ['#3b82f6', '#60a5fa', '#FFFFFF', '#93c5fd'];
+            for(let i=0; i<80; i++) particles.push({ x: canvas.width/2, y: canvas.height/2, vx: (Math.random()-0.5)*10, vy: (Math.random()-0.5)*10, color: colors[Math.floor(Math.random()*colors.length)], life: 100 });
+            function animate() {
+                ctx.clearRect(0,0,canvas.width,canvas.height); let alive = false;
+                particles.forEach(p => { if(p.life > 0) { alive = true; p.x += p.vx; p.y += p.vy; p.vy += 0.2; p.life--; ctx.fillStyle = p.color; ctx.fillRect(p.x, p.y, 4, 4); } });
+                if(alive) requestAnimationFrame(animate); else ctx.clearRect(0,0,canvas.width,canvas.height);
+            }
+            animate();
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
