@@ -10,10 +10,6 @@
     <meta name="keywords" content="debt snowball calculator, amortization schedule, credit card payoff planner, debt avalanche calculator, how to clear debt, loan repayment strategy, financial freedom tool">
     <meta name="robots" content="index, follow">
     <meta name="author" content="Clarity Decisions">
-
-    <!-- VERIFICATION & ANALYTICS -->
-    <!-- Replace 'PASTE_YOUR_CODE_HERE' with your Google Search Console verification code if you have one -->
-    <meta name="google-site-verification" content="PASTE_YOUR_CODE_HERE" />
     
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CW10YREPFF"></script>
     <script>
@@ -452,6 +448,19 @@
         .glossary-term { font-weight: 700; color: white; font-size: 0.95rem; margin-bottom: 6px; display: block; }
         .glossary-def { font-size: 0.85rem; color: var(--text-muted); }
 
+        /* LIBRARY ACCORDION */
+        .library-section { margin-top: 60px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .lib-item { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; margin-bottom: 15px; overflow: hidden; transition: all 0.3s ease; }
+        .lib-item:hover { border-color: rgba(59, 130, 246, 0.3); background: rgba(255,255,255,0.04); }
+        .lib-header { padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: white; font-size: 1.05rem; }
+        .lib-header i { color: var(--accent); transition: transform 0.3s; font-size: 0.9rem; }
+        .lib-content { display: none; padding: 0 20px 20px 20px; color: var(--text-muted); line-height: 1.7; font-size: 0.95rem; border-top: 1px solid rgba(255,255,255,0.05); }
+        .lib-item.active .lib-content { display: block; }
+        .lib-item.active .lib-header i { transform: rotate(180deg); }
+        .lib-content h4 { color: #e2e8f0; margin-top: 20px; margin-bottom: 10px; font-size: 1.1rem; }
+        .lib-content ul { padding-left: 20px; margin-bottom: 15px; }
+        .lib-content li { margin-bottom: 8px; }
+
         .faq-item { border-bottom: 1px solid rgba(255,255,255,0.1); padding: 18px 0; }
         .faq-q { font-weight: 500; color: white; cursor: pointer; display: flex; justify-content: space-between; font-size: 1rem; transition: color 0.2s; }
         .faq-q:hover { color: var(--accent); }
@@ -665,6 +674,7 @@
 
     </div>
 
+    <!-- SEO CONTENT HUB -->
     <div class="content-section content-block">
         <h2>Strategic Debt Repayment.</h2>
         <p>Paying off debt effectively requires more than just making payments; it requires a mathematical strategy. Clarity Decisions provides professional-grade tools usually reserved for financial advisors, completely free, in a privacy-first environment.</p>
@@ -705,6 +715,65 @@
             <h3>Calculation Methodology</h3>
             <p>This calculator uses standard NPER and PMT financial formulas to simulate amortization. It assumes that minimum payments are either a fixed amount or a percentage of the balance (calculated as 2% for credit cards by default if not specified). Interest is compounded monthly. Results are estimates for planning purposes.</p>
         </div>
+
+        <!-- KEYWORD NET: DEBT DESTROYER LIBRARY -->
+        <div class="library-section">
+            <h2>Debt Destroyer Library</h2>
+            <p>Deep dive guides to help you master your finances.</p>
+            
+            <div class="lib-item">
+                <div class="lib-header" onclick="this.parentElement.classList.toggle('active')">
+                    Mastering the Debt Snowball vs. Avalanche <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="lib-content">
+                    <h4>The Mathematical Difference</h4>
+                    <p>The <strong>Avalanche Method</strong> targets debts with the highest interest rate (APR) first. Mathematically, this is superior because it minimizes the amount of interest that compounds against you. For a typical user with $10k in debt, Avalanche can save $500-$2000 in interest compared to random payments.</p>
+                    <p>The <strong>Snowball Method</strong> targets debts with the lowest balance first. While this may cost more in interest over time, behavioral finance studies from <em>Harvard Business Review</em> suggest that the "quick wins" of eliminating small debts motivate people to stick to the plan longer.</p>
+                </div>
+            </div>
+
+            <div class="lib-item">
+                <div class="lib-header" onclick="this.parentElement.classList.toggle('active')">
+                    How to Negotiate Lower Credit Card Interest (Script) <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="lib-content">
+                    <p>Did you know you can often lower your APR just by asking? Use this script:</p>
+                    <ul>
+                        <li><strong>You:</strong> "Hi, I've been a loyal customer for X years. I'm reviewing my finances and noticed my APR is 24%. I've received offers for 0% balance transfer cards from competitors. Before I switch, can you lower my rate to match?"</li>
+                        <li><strong>Agent:</strong> "I can't do that."</li>
+                        <li><strong>You:</strong> "I understand. Is there a retention specialist I can speak with? I'd prefer to stay with you if possible."</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="lib-item">
+                <div class="lib-header" onclick="this.parentElement.classList.toggle('active')">
+                    Debt Consolidation vs. Balance Transfers <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="lib-content">
+                    <p><strong>Balance Transfers (0% Cards):</strong> Best for debts under $10k that you can pay off in 12-18 months. Watch out for the 3-5% transfer fee. If you don't pay it off in time, interest shoots back up.</p>
+                    <p><strong>Consolidation Loans:</strong> Better for larger debts ($10k+). These are personal loans with a fixed rate (e.g., 8-12%) used to pay off high-interest cards (20%+). They simplify your life into one monthly payment.</p>
+                </div>
+            </div>
+
+            <div class="lib-item">
+                <div class="lib-header" onclick="this.parentElement.classList.toggle('active')">
+                    Emergency Mode: When You Can't Pay <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="lib-content">
+                    <p>If you cannot make minimum payments, stop using the calculator and switch to survival mode. Prioritize your "Four Walls" first:</p>
+                    <ol>
+                        <li>Food</li>
+                        <li>Utilities</li>
+                        <li>Housing (Rent/Mortgage)</li>
+                        <li>Transportation</li>
+                    </ol>
+                    <p>Unsecured debts (credit cards) come last. Contact a non-profit credit counselor (like the NFCC) immediately.</p>
+                </div>
+            </div>
+
+        </div>
+
     </div>
 
     <div class="mobile-cta">
