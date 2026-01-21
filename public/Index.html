@@ -3,14 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Debt Clearing Calculator | The Ultimate Free Payoff Planner</title>
+    <title>Free Debt Snowball Calculator (Private & No Signup) | Clarity Decisions</title>
     
     <link rel="canonical" href="https://www.clarity-decisions.com/">
-    <meta name="description" content="The #1 free Debt Clearing Calculator. Generate a month-by-month amortization schedule, compare Snowball vs. Avalanche, and get a custom strategy to become debt-free fast.">
-    <meta name="keywords" content="debt snowball calculator, amortization schedule, credit card payoff planner, debt avalanche calculator, how to clear debt, loan repayment strategy, financial freedom tool">
+    <meta name="description" content="The secure, no-signup debt calculator. Compare Snowball vs. Avalanche methods instantly in your browser. Privacy-first: your financial data never leaves your device.">
+    <meta name="keywords" content="debt snowball calculator, debt avalanche calculator, credit card payoff planner, free debt calculator no signup, private financial tools, amortization schedule">
     <meta name="robots" content="index, follow">
-    <meta name="author" content="Clarity Decisions">
+    <meta name="author" content="Clarity Decisions Team">
     
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.clarity-decisions.com/">
+    <meta property="og:title" content="Clarity | The Private Debt Payoff Calculator">
+    <meta property="og:description" content="Calculate your debt-free date without creating an account. 100% Client-Side Privacy.">
+    <meta property="og:image" content="https://clarity-decisions.com/share-card.png">
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CW10YREPFF"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -19,107 +25,73 @@
       gtag('config', 'G-CW10YREPFF');
     </script>
 
-    <!-- PWA / MOBILE CAPABILITIES -->
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiQ2xhcml0eSBEZWNpc2lvbnMiLCJzaG9ydF9uYW1lIjoiQ2xhcml0eSIsInN0YXJ0X3VybCI6Ii8iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjMDIwNjE3IiwidGhlbWVfY29sb3IiOiIjM2I4MmY2IiwiaWNvbnMiOlt7InNyYyI6Imh0dHBzOi8vY2RuLWljb25zLXBuZy5mbGF0aWNvbi5jb20vNTEyLzI1MzQvMjUzNDIyMS5wbmciLCJzaXplcyI6IjUxMng1MTIiLCJ0eXBlIjoiaW1hZ2UvcG5nIn1dfQ==">
 
-    <!-- SOCIAL SHARING -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.clarity-decisions.com/">
-    <meta property="og:title" content="How to Clear Debt Quickly | Advanced Calculator">
-    <meta property="og:description" content="Stop guessing. Use the Clarity Engine to visualize your exact debt-free date.">
-    <meta property="og:image" content="https://clarity-decisions.com/share-card.png">
-
-    <!-- DYNAMIC FAVICON -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
 
-    <!-- PERFORMANCE -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 
-    <!-- *** RICH RESULTS SCHEMAS *** -->
-    
-    <!-- 1. Software Application Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Clarity Decisions",
+      "url": "https://www.clarity-decisions.com",
+      "logo": "https://clarity-decisions.com/logo.png",
+      "description": "Provider of privacy-first financial planning tools and debt calculators."
+    }
+    </script>
+
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
-      "name": "Clarity Debt Clearing Calculator",
-      "description": "Professional-grade debt payoff calculator offering Snowball and Avalanche strategies with detailed amortization schedules.",
+      "name": "Clarity Debt Snowball Calculator",
+      "description": "A free, privacy-focused debt payoff planner that calculates Snowball and Avalanche strategies in the browser.",
       "applicationCategory": "FinanceApplication",
-      "operatingSystem": "Web Browser",
+      "operatingSystem": "Any",
       "offers": {
         "@type": "Offer",
         "price": "0",
-        "priceCurrency": "USD"
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock"
       },
-      "featureList": "Debt Snowball Calculation, Avalanche Method, Amortization Schedule, Interest Savings Estimator"
-    }
-    </script>
-
-    <!-- 2. Breadcrumb Schema -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [{
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://www.clarity-decisions.com/"
-      },{
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Calculators",
-        "item": "https://www.clarity-decisions.com/#tools"
-      },{
-        "@type": "ListItem",
-        "position": 3,
-        "name": "Debt Payoff Planner",
-        "item": "https://www.clarity-decisions.com/"
-      }]
-    }
-    </script>
-
-    <!-- 3. HowTo Schema -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "HowTo",
-      "name": "How to clear debt fast using the Snowball Method",
-      "step": [
-        { "@type": "HowToStep", "name": "List your debts", "text": "Enter every credit card, loan, and overdraft balance along with their interest rates." },
-        { "@type": "HowToStep", "name": "Choose a strategy", "text": "Select 'Snowball' to pay off smallest balances first for motivation, or 'Avalanche' to target high interest rates." },
-        { "@type": "HowToStep", "name": "Calculate your budget", "text": "Determine how much extra money you can afford to pay monthly above your minimums." },
-        { "@type": "HowToStep", "name": "Execute the plan", "text": "Pay the minimum on everything, and put all extra funds towards the top priority debt." }
+      "featureList": [
+        "Snowball Method Calculation",
+        "Avalanche Method Calculation",
+        "Privacy-First (No Data Stored)",
+        "Interactive Amortization Schedule"
       ]
     }
     </script>
 
-    <!-- 4. FAQ Schema -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "FAQPage",
       "mainEntity": [{
         "@type": "Question",
-        "name": "What is the fastest way to clear debt?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Mathematically, the 'Avalanche Method' is fastest. By paying off debts with the highest interest rates first, you minimize the compound interest working against you, reducing both the time and total cost." }
+        "name": "What is the best free debt snowball calculator?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Clarity Decisions offers a free, privacy-first debt snowball calculator that requires no signup and runs entirely in your browser." }
       }, {
         "@type": "Question",
-        "name": "Is this calculator secure?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Clarity Decisions uses client-side processing. Your financial data is processed instantly in your own browser memory and is never transmitted to any external server or database." }
+        "name": "Difference between Snowball and Avalanche method?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The Snowball method targets the smallest balance first for psychological wins. The Avalanche method targets the highest interest rate first to save the most money mathematically." }
+      }, {
+        "@type": "Question",
+        "name": "Is it safe to use online debt calculators?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Many calculators store your data. Clarity Decisions is safe because it uses client-side processing, meaning your financial data never leaves your device." }
       }]
     }
     </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 
     <style>
         :root {
@@ -136,7 +108,6 @@
             /* ACCENT COLOR (Electric Blue) */
             --accent: #3b82f6; 
             --accent-glow: rgba(59, 130, 246, 0.5);
-            --accent-hover: #2563eb;
             
             --input-bg: rgba(255, 255, 255, 0.08);
             --input-focus: rgba(59, 130, 246, 0.2);
@@ -151,9 +122,7 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--bg-body);
             color: var(--text-primary);
-            margin: 0;
-            padding: 0;
-            line-height: 1.5;
+            margin: 0; padding: 0; line-height: 1.5;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
@@ -222,15 +191,20 @@
             font-size: 1.1rem; font-weight: 500; color: rgba(255,255,255,0.95); margin: 0 auto 8px;
             max-width: 700px; letter-spacing: -0.01em;
         }
-        .sub-tagline {
-            font-size: 0.9rem; color: var(--text-muted); max-width: 500px; margin: 0 auto 10px;
+        
+        /* TRUST BADGE (NEW) */
+        .privacy-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(52, 199, 89, 0.15); border: 1px solid rgba(52, 199, 89, 0.3);
+            color: #4ade80; padding: 6px 14px; border-radius: 20px;
+            font-size: 0.8rem; font-weight: 600; margin: 15px auto 25px;
+            box-shadow: 0 0 15px rgba(52, 199, 89, 0.1);
         }
         
         .trust-bar {
             display: flex; justify-content: center; gap: 25px; opacity: 0.5; margin-bottom: 0px;
         }
         .trust-bar i { font-size: 1.2rem; color: white; transition: color 0.3s; }
-        .trust-bar:hover i { color: var(--accent); }
 
         /* --- LAYOUT --- */
         .app-container {
@@ -277,10 +251,7 @@
             cursor: pointer; border-radius: 9px; transition: 0.3s;
         }
         .toggle-opt.active { 
-            background: rgba(59, 130, 246, 0.2); 
-            color: #60a5fa; 
-            border: 1px solid var(--accent); 
-            font-weight: 700; 
+            background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid var(--accent); font-weight: 700; 
         }
 
         .debt-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
@@ -322,10 +293,8 @@
         input[type=range] { -webkit-appearance: none; width: 100%; height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; padding: 0; border: none; }
         input[type=range]::-webkit-slider-thumb { 
             -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%; 
-            background: var(--accent); cursor: pointer; box-shadow: 0 0 15px var(--accent-glow); 
-            margin-top: -8px; 
+            background: var(--accent); cursor: pointer; box-shadow: 0 0 15px var(--accent-glow); margin-top: -8px; 
         }
-        input[type=range]::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; }
 
         /* --- BUTTON --- */
         .btn-primary {
@@ -336,8 +305,7 @@
             transition: all 0.3s ease; letter-spacing: 0.5px; text-transform: uppercase;
             margin-top: 8px;
             box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
-            position: relative;
-            overflow: hidden;
+            position: relative; overflow: hidden;
             animation: pulse-glow 3s infinite;
         }
         .btn-primary:hover { 
@@ -354,9 +322,7 @@
         @keyframes pulse-glow { 0% { box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); } 50% { box-shadow: 0 4px 25px rgba(59, 130, 246, 0.6); } 100% { box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); } }
 
         /* --- DASHBOARD SUMMARY --- */
-        .result-summary {
-            text-align: center; padding: 15px 0; margin-bottom: 5px;
-        }
+        .result-summary { text-align: center; padding: 15px 0; margin-bottom: 5px; }
         .freedom-date { 
             font-size: 3rem; font-weight: 800; line-height: 1.1; 
             background: linear-gradient(to bottom, #fff, #bfdbfe);
@@ -433,6 +399,15 @@
             box-shadow: 0 0 8px var(--accent-glow);
         }
 
+        /* --- STATIC EXAMPLE FOR BOTS (SEO) --- */
+        .static-example {
+            margin: 60px auto; max-width: 900px; padding: 30px;
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px;
+        }
+        .static-example h2 { font-size: 1.5rem; color: white; margin-top: 0; }
+        .example-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px; }
+        @media(max-width: 768px) { .example-grid { grid-template-columns: 1fr; } }
+
         /* --- SEO CONTENT BLOCKS --- */
         .content-section {
             max-width: 800px; margin: 60px auto; padding: 0 20px;
@@ -497,19 +472,12 @@
 
         #diagnosis-box {
             background: rgba(59, 130, 246, 0.15); 
-            border: 1px solid var(--accent); 
-            padding: 20px; 
-            border-radius: 12px; 
-            margin-bottom: 20px; 
-            font-size: 0.9rem; 
-            color: #ffffff;
-            display: none; 
-            line-height: 1.6;
+            border: 1px solid var(--accent); padding: 20px; border-radius: 12px; margin-bottom: 20px; 
+            font-size: 0.9rem; color: #ffffff; display: none; line-height: 1.6;
             text-shadow: 0 1px 2px rgba(0,0,0,0.5); 
         }
         #diagnosis-box strong { color: #93c5fd; }
         
-        /* Print Styles */
         @media print {
             body { background: white; color: black; font-family: sans-serif; }
             nav, .hero, .btn-primary, .mobile-cta, .strategy-toggle, .slider-container, footer, .content-section, .btn-add, .col-del, .currency-switch, .tabs-header, .mobile-cta, #bg-video-container { display: none !important; }
@@ -545,8 +513,12 @@
     <header class="hero">
         <h1>Debt Free.<br><span>Mathematically Proven.</span></h1>
         
+        <div class="privacy-badge">
+            <i class="fas fa-shield-alt"></i> Private & No-Signup
+        </div>
+
         <p class="main-tagline">"Get Clarity on your Debt. Make the Decision to be Free."</p>
-        <p class="sub-tagline">Visualize your freedom date using the Snowball or Avalanche method.</p>
+        <p class="sub-tagline">The most secure way to visualize your freedom date using Snowball or Avalanche strategies.</p>
         
         <div class="trust-bar">
             <i class="fab fa-cc-visa" title="Visa"></i>
@@ -674,9 +646,33 @@
 
     </div>
 
-    <!-- SEO CONTENT HUB -->
+    <section class="static-example">
+        <h2>See How It Works: Example Scenario</h2>
+        <p style="color:var(--text-muted)">Imagine you have a <strong>$5,000 credit card balance</strong> at 18% APR. Paying just the minimum ($100), it will take you over 7 years to pay off.</p>
+        
+        <div class="example-grid">
+            <div>
+                <h3 style="color:white; font-size:1.1rem;">With Clarity Decisions:</h3>
+                <ul style="color:var(--text-secondary); line-height:1.6; padding-left:20px;">
+                    <li>You add just <strong>$50 extra</strong> per month.</li>
+                    <li>You choose the <strong>Avalanche Method</strong>.</li>
+                    <li><strong>Result:</strong> Debt free in 3 years (saving 4 years of payments).</li>
+                    <li><strong>Savings:</strong> You save over $2,100 in interest.</li>
+                </ul>
+            </div>
+            <div>
+                 <h3 style="color:white; font-size:1.1rem;">Why This Calculator?</h3>
+                 <ul style="color:var(--text-secondary); line-height:1.6; padding-left:20px;">
+                    <li><strong>100% Private:</strong> We don't want your email.</li>
+                    <li><strong>Real Math:</strong> Uses NPER financial formulas.</li>
+                    <li><strong>Instant:</strong> No loading screens or signups.</li>
+                 </ul>
+            </div>
+        </div>
+    </section>
+
     <div class="content-section content-block">
-        <h2>Strategic Debt Repayment.</h2>
+        <h2>Strategic Debt Repayment Guide</h2>
         <p>Paying off debt effectively requires more than just making payments; it requires a mathematical strategy. Clarity Decisions provides professional-grade tools usually reserved for financial advisors, completely free, in a privacy-first environment.</p>
 
         <div class="glossary-grid">
@@ -711,12 +707,11 @@
             <div class="faq-a">Absolutely. Clarity Decisions operates on a "Client-Side" model. This means all calculations happen instantly on your device. We do not have a database, user accounts, or any way to see your financial numbers.</div>
         </div>
         
-        <div style="margin-top:60px; font-size:0.8rem; color:var(--text-muted);">
-            <h3>Calculation Methodology</h3>
-            <p>This calculator uses standard NPER and PMT financial formulas to simulate amortization. It assumes that minimum payments are either a fixed amount or a percentage of the balance (calculated as 2% for credit cards by default if not specified). Interest is compounded monthly. Results are estimates for planning purposes.</p>
+        <div style="margin-top:60px; padding:20px; background:rgba(255,255,255,0.02); border-left:3px solid var(--accent); font-size:0.8rem; color:var(--text-muted);">
+            <h3 style="margin-top:0; color:white;">Calculation Methodology (Transparency)</h3>
+            <p style="margin-bottom:0;">This calculator uses standard NPER (Number of Periods) and PMT (Payment) financial formulas to simulate amortization. It assumes that minimum payments are either a fixed amount or a percentage of the balance. Interest is compounded monthly. Results are estimates for planning purposes.</p>
         </div>
 
-        <!-- KEYWORD NET: DEBT DESTROYER LIBRARY -->
         <div class="library-section">
             <h2>Debt Destroyer Library</h2>
             <p>Deep dive guides to help you master your finances.</p>
@@ -728,7 +723,7 @@
                 <div class="lib-content">
                     <h4>The Mathematical Difference</h4>
                     <p>The <strong>Avalanche Method</strong> targets debts with the highest interest rate (APR) first. Mathematically, this is superior because it minimizes the amount of interest that compounds against you. For a typical user with $10k in debt, Avalanche can save $500-$2000 in interest compared to random payments.</p>
-                    <p>The <strong>Snowball Method</strong> targets debts with the lowest balance first. While this may cost more in interest over time, behavioral finance studies from <em>Harvard Business Review</em> suggest that the "quick wins" of eliminating small debts motivate people to stick to the plan longer.</p>
+                    <p>The <strong>Snowball Method</strong> targets debts with the lowest balance first. While this may cost more in interest over time, behavioral finance studies suggest that the "quick wins" of eliminating small debts motivate people to stick to the plan longer.</p>
                 </div>
             </div>
 
@@ -782,7 +777,7 @@
 
     <footer>
         <div style="margin-bottom:10px;">&copy; 2026 Clarity Decisions.</div>
-        <div style="opacity: 0.6;">This tool is for educational purposes only.</div>
+        <div style="opacity: 0.6;">This tool is for educational purposes only. Last Updated: January 2026.</div>
     </footer>
 
     <script>
